@@ -5,18 +5,29 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PHP Motors</title>
     <link rel="icon" type="image/x-icon" href="images/site/logo.png">
-    <link type="text/css" media="screen" rel="stylesheet" href="css/style.css">
+    <link type="text/css" media="screen" rel="stylesheet" href="css/styles.css">
+    <title>PHP Motors</title>
 </head>
 
 <body>
-    <!--HEADER SNIPPET-->
-    <?php
+    <header>
+        <?php
+        //HEADER SNIPPET
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/phpmotors/snippets/header.php';
+        ?>
 
-    require_once $_SERVER['DOCUMENT_ROOT'] . '/phpmotors/snippets/header.php'
+        <nav>
+            <?php
 
-    ?>
+            //NAV SNIPPET
+            // require_once $_SERVER['DOCUMENT_ROOT'] . '/phpmotors/snippets/nav.php';
+
+            echo $navList;
+
+            ?>
+        </nav>
+    </header>
     <main>
         <h1>Welcome to PHP Motors</h1>
 
@@ -47,27 +58,27 @@
                     <li>"80s livin and I love it!" (5/5)</li>
                 </ul>
             </div>
-            <di class="dole-upgrades-container">
+            <div class="dole-upgrades-container">
                 <p>DMC Dolerean Upgrades</p>
                 <div class="dole-parts">
                     <figure>
                         <img src="images/upgrades/flux-cap.png" alt="Flex Capacitor">
-                        <figcaption><a href="">Flex Capacitor</a></figcaption>
+                        <figcaption><a href="/">Flex Capacitor</a></figcaption>
                     </figure>
                     <figure>
                         <img src="images/upgrades/flame.jpg" alt="Flame Decals">
-                        <figcaption><a href="">Flame Decals</a></figcaption>
+                        <figcaption><a href="/">Flame Decals</a></figcaption>
                     </figure>
                     <figure>
                         <img src="images/upgrades/bumper_sticker.jpg" alt="Bumper Stickers">
-                        <figcaption><a href="">Bumper Stickers</a></figcaption>
+                        <figcaption><a href="/">Bumper Stickers</a></figcaption>
                     </figure>
                     <figure>
                         <img src="images/upgrades/hub-cap.jpg" alt="Hub Caps">
-                        <figcaption><a href="">Hub Caps</a></figcaption>
+                        <figcaption><a href="/">Hub Caps</a></figcaption>
                     </figure>
                 </div>
-        </div>
+            </div>
         </div>
 
         <hr>

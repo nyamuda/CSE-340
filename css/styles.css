@@ -52,16 +52,17 @@ nav ul {
 a {
     text-decoration: none;
     transition: all 0.5s ease-out;
+    color:#002D62;
 }
 
-a:visited {
+/* a:visited {
     color: #ffffff;
-}
+} */
 
-a:hover {
+/* a:hover {
     color: #002D62;
 
-}
+} */
 
 nav a {
     color: #ffffff !important;
@@ -210,6 +211,7 @@ figcaption a {
     margin: 3em auto;
     background-color: #4c96d7;
     padding: 1em;
+    color:#101010;
 }
 
 * {
@@ -229,7 +231,7 @@ figcaption a {
 }
 
 
-
+select,
 input[type=text],
 input[type=password],
 input[type=email] {
@@ -246,7 +248,7 @@ input[type=email] {
     outline: none;
 }
 
-input[type=button] {
+input[type=submit] {
     width: 100%;
     cursor: pointer;
     margin: 0;

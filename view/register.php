@@ -8,6 +8,19 @@
     <link rel="icon" type="image/x-icon" href="../images/site/logo.png">
     <link type="text/css" media="screen" rel="stylesheet" href="../css/styles.css">
     <title>PHP Motors</title>
+    <style>
+    input[type=submit] {
+        width: 100%;
+        cursor: pointer;
+        margin: 0;
+        padding: .5em 2em;
+        background: #636363;
+        border: none;
+        color: #fff;
+        font-size: 1em;
+        font-weight: 400;
+    }
+    </style>
 </head>
 
 <body>
@@ -32,25 +45,32 @@
     <main>
 
         <div class="section-form">
-            <form method="GET" action="thankyou.html">
+            <?php if (isset($message)) {
+                echo $message;
+            } ?>
+            <form method="POST" action="/phpmotors/accounts/index.php">
                 <div class="intro">
                     <h1>Register</h1>
                 </div>
 
-                <label for="firstName-register">First Name<input id="firstName-register" type="text" value=""
-                        placeholder="First Name" name="first-name" tabindex="1" required /></label>
+                <label for="firstName-register">First Name<input id="firstName-register" type="text"
+                        value="<?php echo $clientFirstName ?>" placeholder="First Name" name="clientFirstName"
+                        tabindex="1" /></label>
 
-                <label for="lastName-register">Last Name<input id="lastName-register" type="text" value=""
-                        placeholder="Last Name" name="last-name" tabindex="1" required /></label>
+                <label for="lastName-register">Last Name<input id="lastName-register" type="text"
+                        value="<?php echo $clientLastName ?>" placeholder="Last Name" name="clientLastName"
+                        tabindex="1" /></label>
 
-                <label for="email-register">Email<input id="email-register" type="email" value="" placeholder="Email"
-                        name="email" tabindex="3" required /></label>
+                <label for="email-register">Email<input id="email-register" type="text"
+                        value="<?php echo $clientEmail ?>" placeholder="Email" name="clientEmail"
+                        tabindex="3" /></label>
 
 
-                <label for="password-register">Password<input id="password-register" type="password" value=""
-                        placeholder="Password" name="business-title" tabindex="2" required /></label>
+                <label for="password-register">Password<input id="password-register" type="password"
+                        placeholder="Password" name="clientPassword" tabindex="2" /></label>
 
-                <input type="button" value="Submit" tabindex="6" />
+                <input id="reg-btn" type="submit" value="Register" tabindex="6" />
+                <input type="hidden" name="action" value="register">
             </form>
         </div>
         <hr>

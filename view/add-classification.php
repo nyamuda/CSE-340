@@ -24,7 +24,7 @@
             // //NAV SNIPPET
             // require_once $_SERVER['DOCUMENT_ROOT'] . '/phpmotors/snippets/nav.php';
 
-            echo $navList;
+            echo $dynamicNavBar;
 
             ?>
         </nav>
@@ -35,15 +35,17 @@
             <form method="POST" action="/phpmotors/vehicles/index.php">
                 <div class="intro">
                     <h1>Add Classification</h1>
-                    <?php if (isset($message)) {
-                        echo $message;
+                    <?php if (isset($error_message)) {
+                        echo $error_message;
                     } ?>
-
                 </div>
 
-                <label for="invMake">Classification Name<input id="inMake" type="text"
-                        value="<?php echo $classificationName ?>" placeholder="Classification Name"
-                        name="classificationName" tabindex="1" /></label>
+                <label for="invMake">Classification Name </label>
+                <p class="small-message">Please enter no more than 30
+                    characters</p><input id="inMake" type="text" value="<?php echo $classificationName ?>"
+                    placeholder="Classification Name" name="classificationName" tabindex="1" required
+                    pattern="^.{1,30}$" />
+
                 <input type="submit" value="Submit" tabindex="6" />
                 <input type="hidden" name="action" value="add-classification">
             </form>

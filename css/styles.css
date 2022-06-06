@@ -294,6 +294,14 @@ input[type=submit] {
     
 }
 
+.error-message {
+    color:red;
+}
+
+.success-message {
+    color:#00755E;
+}
+
 /* .no-account-link>a:hover {
     color: #4c96d7;
     

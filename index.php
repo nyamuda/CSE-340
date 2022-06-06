@@ -1,25 +1,18 @@
 <?php
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/phpmotors/model/main-model.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/phpmotors/library/functions.php';
 
-//Getting all classifications and use them to make a Nav bar
-$classifications = getClassifications();
-$rootUrl = "/phpmotors/index.html";
-$navList = "<ul>";
-$navList .= "<li><a href='$rootUrl' title='View the PHP Motors home page'>Home</a></li>";
-foreach ($classifications as $classification) {
-    $name = $classification['classificationName'];
-    $encodedName = urlencode($name);
-    $navList .= "<li><a href='$rootUrl?action=$encodedName' title= 'View our $name product line'>$name</a></li>";
-}
 
-$navList .= "</ul>";
+//Dynamic Nav Bar
+//the navBar() function returns the dynamic nav bar
+$dynamicNavBar = navBar();
 
 //Checking for action values -- in a POST OR GET REQUEST
 
-$action = filter_input(INPUT_POST, 'action');
+$action = trim(filter_input(INPUT_POST, 'action', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
 if ($action == null) {
-    $action = filter_input(INPUT_GET, 'action');
+    $action = trim(filter_input(INPUT_GET, 'action', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
 }
 
 switch ($action) {

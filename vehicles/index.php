@@ -2,36 +2,45 @@
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/phpmotors/model/main-model.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/phpmotors/model/vehicles-model.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/phpmotors/library/functions.php';
+
+
+//Dynamic Nav Bar
+//the navBar() function returns the dynamic nav bar
+$dynamicNavBar = navBar();
 
 
 
-$action = filter_input(INPUT_POST, 'action');
+
+$action = trim(filter_input(INPUT_POST, 'action', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
 if ($action == null) {
-    $action = filter_input(INPUT_GET, 'action');
+    $action = trim(filter_input(INPUT_GET, 'action', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
 }
 
 
-$classifications = getClassifications();
-$rootUrl = "/phpmotors/index.html";
-$navList = "<ul>";
-$navList .= "<li><a href='$rootUrl' title='View the PHP Motors home page'>Home</a></li>";
-foreach ($classifications as $classification) {
-    $name = $classification['classificationName'];
-    $encodedName = urlencode($name);
-    $navList .= "<li><a href='$rootUrl?action=$encodedName' title= 'View our $name product line'>$name</a></li>";
+
+//Creating a dynamic select tag
+function createSelectTag($selectedId = "")
+{
+    //getting all classifications from the database
+    $classifications = getClassifications();
+    $classificationList = "<select name='classificationId'>";
+    //default option
+    $classificationList .= "<option value=''>-- Select Car Classification --</option>";
+    foreach ($classifications as $classification) {
+        $name = $classification['classificationName'];
+        $id = $classification['classificationId'];
+        //if a user has already selected a value (an id)
+        //we want that selected option to be sticky
+        if ($selectedId == $id) {
+            //so we add a 'selected' attribute to the option with that id
+            $classificationList .= "<option selected value=$id>$name</option>";
+        } else {
+            $classificationList .= "<option value=$id>$name</option>";
+        }
+    }
+    return $classificationList .= '</select>';
 }
-$navList .= "</ul>";
-
-
-$classificationList = "<select name='classificationId'>";
-$classificationList .= "<option value=''>-- Select Car Classification --</option>";
-foreach ($classifications as $classification) {
-    $name = $classification['classificationName'];
-    $id = $classification['classificationId'];
-    $classificationList .= "<option value=$id>$name</option>";
-}
-$classificationList .= '</select>';
-
 
 
 //default image path
@@ -40,23 +49,24 @@ $defaultImage = '/phpmotors/images/no-image.png';
 //This function saves a vehicle to the database
 function saveVehicle()
 {
-    //make $navList, $classificationList and defaultImage accessible inside this function
-    global $navList;
+    //make $navBar, $classificationList and defaultImage accessible inside this function
+    global $dynamicNavBar;
     global $classificationList;
     global $defaultImage;
 
     //get data from the user
-    $invMake = filter_input(INPUT_POST, 'invMake');
-    $invModel = filter_input(INPUT_POST, 'invModel');
-    $invDescription = filter_input(INPUT_POST, 'invDescription');
-    $invImage = filter_input(INPUT_POST, 'invImage');
-    $invThumbnail = filter_input(INPUT_POST, 'invThumbnail');
-    $invPrice = filter_input(INPUT_POST, 'invPrice');
-    $invStock = filter_input(INPUT_POST, 'invStock');
-    $invColor = filter_input(INPUT_POST, 'invColor');
-    $classificationId = filter_input(INPUT_POST, 'classificationId');
+    //AND Sanitize the data
+    $invMake = trim(filter_input(INPUT_POST, 'invMake', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+    $invModel = trim(filter_input(INPUT_POST, 'invModel', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+    $invDescription = trim(filter_input(INPUT_POST, 'invDescription', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+    $invImage = trim(filter_input(INPUT_POST, 'invImage', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+    $invThumbnail = trim(filter_input(INPUT_POST, 'invThumbnail', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+    $invPrice = trim(filter_input(INPUT_POST, 'invPrice', FILTER_SANITIZE_FULL_SPECIAL_CHARS, FILTER_SANITIZE_NUMBER_FLOAT));
+    $invStock = trim(filter_input(INPUT_POST, 'invStock', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+    $invColor = trim(filter_input(INPUT_POST, 'invColor', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+    $classificationId = trim(filter_input(INPUT_POST, 'classificationId', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
 
-    //if no PATH for the image or thumbnail is provided
+
 
     //if there are any empty fields
     if (
@@ -71,7 +81,7 @@ function saveVehicle()
         empty($classificationId)
     ) {
 
-        $message = "<p>Please provide information for all empty form fields.</p>";
+        $error_message = "<p class='error-message'>Please provide information for all empty form fields.</p>";
         include '../view/add-vehicle.php';
         exit;
     }
@@ -92,7 +102,9 @@ function saveVehicle()
 
     //if the car was added successfully
     if ($rowsAffected == 1) {
-        $message = "<p>The vehicle was successfully added.</p>";
+        //no error message
+        $error_message = "";
+        $success_message = "<p class='success-message'>The vehicle was successfully added.</p>";
 
 
         //clearing all input fields
@@ -113,7 +125,8 @@ function saveVehicle()
     }
     //if the car was not added successfully
     else {
-        $message = "<p>Sorry,$invModel was not added. Please try again.</p>";
+        $error_message = "<p class='error-message'>Sorry,$invModel was not added. Please try again.</p>";
+        $success_message = "";
         include '../view/add-vehicle.php';
         exit;
     }
@@ -122,27 +135,38 @@ function saveVehicle()
 
 function saveClassification()
 {
-    //make $navList accessible inside this function
-    global $navList;
+    //make $navBar accessible inside this function
+    global $dynamicNavBar;
 
-    $classificationName = filter_input(INPUT_POST, 'classificationName');
+    //sanitize the data
+    $classificationName = trim(filter_input(INPUT_POST, 'classificationName', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+
+    //validate the data
+    //Using the checkClassification() function from the "functions" module
+    $classificationName = checkClassification($classificationName);
 
     if (empty($classificationName)) {
-        $message = "<p>Please provide information for the form field.</p>";
+        $error_message = "<p class='error-message'>Please provide information for the form field.</p>";
         include "../view/add-classification.php";
         exit;
     }
 
+
+
     $rowsAffected = addClassification($classificationName);
     if ($rowsAffected == 1) {
+        $error_message = "";
         header('Location:/phpmotors/vehicles');
         exit;
     } else {
-        $message = "<p>Sorry,the classification name was not added. Please try again.</p>";
+        $error_message = "<p class='error-message'>Sorry,the classification name was not added. Please try again.</p>";
         include '../view/add-vehicle.php';
         exit;
     }
 }
+
+
+
 
 switch ($action) {
     case 'classification':

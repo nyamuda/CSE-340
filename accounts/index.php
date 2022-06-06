@@ -7,23 +7,15 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/phpmotors/model/accounts-model.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/phpmotors/library/functions.php';
 
 
-$classifications = getClassifications();
-$rootUrl = "/phpmotors/index.html";
-$navList = "<ul>";
-$navList .= "<li><a href='$rootUrl' title='View the PHP Motors home page'>Home</a></li>";
-foreach ($classifications as $classification) {
-    $name = $classification['classificationName'];
-    $encodedName = urlencode($name);
-    $navList .= "<li><a href='$rootUrl?action=$encodedName' title= 'View our $name product line'>$name</a></li>";
-}
-
-$navList .= "</ul>";
+//Dynamic Nav Bar
+//the navBar() function returns the dynamic nav bar
+$dynamicNavBar = navBar();
 
 
 
-$action = filter_input(INPUT_POST, 'action');
+$action = trim(filter_input(INPUT_POST, 'action', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
 if ($action == null) {
-    $action = filter_input(INPUT_GET, 'action');
+    $action = trim(filter_input(INPUT_GET, 'action', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
 }
 
 //The function below filters input register data
@@ -32,8 +24,8 @@ if ($action == null) {
 
 function addClient()
 {
-    //make navList accessible inside this function
-    global $navList;
+    //make navBar accessible inside this function
+    global $dynamicNavBar;
 
     //Sanitize Input
     $clientFirstName = trim(filter_input(INPUT_POST, 'clientFirstName', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
@@ -52,7 +44,8 @@ function addClient()
 
     //Check if the rest of the rest of the data is as expected.
     if (empty($clientFirstName) || empty($clientLastName) || empty($checkPassword) || empty($clientEmail)) {
-        $message = "<p>Please provide information for all empty form fields.</p>";
+        $error_message = "<p class='error-message'>Please provide information for all empty form fields.</p>";
+        $success_message = "";
         include '../view/register.php';
         exit;
     }
@@ -65,13 +58,14 @@ function addClient()
     //if the client is added successfully
     // we take the user to the login page
     if ($regOutcome == 1) {
-        $message = "<p>Thanks for registering $clientFirstName. Please use your email and password to login.</p>";
+        $error_message = "";
+        $success_message = "<p class='success-message'>Thanks for registering $clientFirstName. Please use your email and password to login.</p>";
         include '../view/login.php';
         exit;
     }
     //if its a failure
     else {
-        $message = "<p>Sorry $clientFirstName, but the registration failed. Please try again.</p>";
+        $error_message = "<p class='error-message'>Sorry $clientFirstName, but the registration failed. Please try again.</p>";
         include '../view/register.php';
         exit;
     }

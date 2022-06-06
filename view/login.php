@@ -24,7 +24,7 @@
             //NAV SNIPPET
             // require_once $_SERVER['DOCUMENT_ROOT'] . '/phpmotors/snippets/nav.php';
 
-            echo $navList;
+            echo $dynamicNavBar;
 
             ?>
         </nav>
@@ -34,8 +34,11 @@
 
         <div class="section-form">
             <form method="GET" action="thankyou.html">
-                <?php if (isset($message)) {
-                    echo $message;
+                <?php if (isset($error_message)) {
+                    echo $error_message;
+                } ?>
+                <?php if (isset($success_message)) {
+                    echo $success_message;
                 } ?>
                 <div class="intro">
                     <h1>Login</h1>

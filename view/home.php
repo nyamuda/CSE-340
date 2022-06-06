@@ -20,10 +20,9 @@
         <nav>
             <?php
 
-            //NAV SNIPPET
-            // require_once $_SERVER['DOCUMENT_ROOT'] . '/phpmotors/snippets/nav.php';
+            require_once $_SERVER['DOCUMENT_ROOT'] . '/phpmotors/index.php';
 
-            echo $navList;
+            echo $dynamicNavBar;
 
             ?>
         </nav>

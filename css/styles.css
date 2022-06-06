@@ -1,5 +1,13 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Racing+Sans+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa&display=swap');
+
+:root {
+    --input-small-text:0.8rem;
+    --small-color:#F8F8F8;
+    --form-color: #3a3a3a;
+    --form-font:'Comfortaa', cursive;
+}
 
 /* BODY FOOTER AND HEADER START */
 
@@ -207,11 +215,12 @@ figcaption a {
 
 
  .section-form {
+    font-family:var(--form-font);
     width: 95%;
     margin: 3em auto;
-    background-color: #4c96d7;
+    background-color: var(--form-color);
     padding: 1em;
-    color:#101010;
+    color:#ffffff;
 }
 
 * {
@@ -254,10 +263,12 @@ input[type=submit] {
     margin: 0;
     padding: .5em 2em;
     background: #636363;
+    background:  #4c96d7;
     border: none;
     color: #fff;
     font-size: 1em;
     font-weight: 400;
+  
 }
 
 
@@ -265,13 +276,21 @@ input[type=submit] {
 .no-account-link {
     text-align: center;
     font-size:1.2rem;
-    margin-top:0rem;
+    margin-top:1rem;
     margin-bottom:0rem;
 }
 
 .no-account-link>a {
     transition: all 0.2s ease-in-out;
-    color:#002D62;
+    color: #a6cbeb;
+    
+}
+
+.small-message {
+    font-size:var( --input-small-text);
+    color:var(--small-color);
+    margin-top:0.2rem;
+    margin-bottom:0.2rem;
     
 }
 

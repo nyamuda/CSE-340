@@ -40,10 +40,11 @@
                 <div class="intro">
                     <h1>Login</h1>
                 </div>
-                <label for="email-login">Email<input id="email-login" type="email" value="" placeholder="Email"
-                        name="email" tabindex="3" required /></label>
-                <label for="password-login">Password<input id="password-login" type="password" value=""
-                        placeholder="Password" name="business-title" tabindex="2" required /></label>
+                <label for="email-login">Email<input id="email-login" type="email" value="<?php echo $clientEmail ?>"
+                        placeholder="Email" name="email" tabindex="3" required /></label>
+                <label for="password-login">Password<input id="password-login" type="password"
+                        value="<?php echo $clientPassword ?>" placeholder="Password" name="business-title" tabindex="2"
+                        required /></label>
 
                 <input type="submit" value="Submit" tabindex="6" />
                 <p class="no-account-link">No account?<a

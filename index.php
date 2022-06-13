@@ -1,5 +1,6 @@
 <?php
-
+// Create or access a Session
+session_start();
 require_once $_SERVER['DOCUMENT_ROOT'] . '/phpmotors/model/main-model.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/phpmotors/library/functions.php';
 
@@ -14,6 +15,12 @@ $action = trim(filter_input(INPUT_POST, 'action', FILTER_SANITIZE_FULL_SPECIAL_C
 if ($action == null) {
     $action = trim(filter_input(INPUT_GET, 'action', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
 }
+
+//get the the first name of the client if they are logged in
+//the function in the the 'functions' module
+$sessionFirstName = getSessionClientName();
+
+
 
 switch ($action) {
     case 'value':

@@ -33,26 +33,28 @@
     <main>
 
         <div class="section-form">
-            <form method="GET" action="thankyou.html">
+            <form method="POST" action="/phpmotors/accounts/">
                 <?php if (isset($error_message)) {
                     echo $error_message;
                 } ?>
-                <?php if (isset($success_message)) {
-                    echo $success_message;
+                <?php if (isset($_SESSION['success_message'])) {
+                    echo $_SESSION['success_message'];
                 } ?>
                 <div class="intro">
                     <h1>Login</h1>
                 </div>
                 <label for="email-login">Email<input id="email-login" type="email" value="<?php echo $clientEmail ?>"
-                        placeholder="Email" name="email" tabindex="3" required /></label>
+                        placeholder="Email" name="clientEmail" tabindex="3" required /></label>
                 <label for="password-login">Password<input id="password-login" type="password"
-                        value="<?php echo $clientPassword ?>" placeholder="Password" name="business-title" tabindex="2"
+                        value="<?php echo $clientPassword ?>" placeholder="Password" name="clientPassword" tabindex="2"
                         required /></label>
 
                 <input type="submit" value="Submit" tabindex="6" />
                 <p class="no-account-link">No account?<a
                         href="/phpmotors/accounts/index.php?action=sign_up">&nbsp;&nbsp;Sign
                         up</a></p>
+
+                <input type="hidden" name="action" value="login">
             </form>
         </div>
         <hr>

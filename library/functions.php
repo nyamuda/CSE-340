@@ -44,3 +44,16 @@ function checkClassification($classificationName)
         return false;
     }
 }
+
+//Getting the first name of the client if their logged in
+function getSessionClientName()
+{
+    if (isset($_SESSION['clientData']['clientFirstName'])) {
+        $sessionFirstName = $_SESSION['clientData']['clientFirstName'];
+        //sanitize the data
+        $sessionFirstName = filter_var($sessionFirstName, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+        //return the name
+        return $sessionFirstName;
+    }
+}

@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="images/site/logo.png">
-    <link type="text/css" media="screen" rel="stylesheet" href="css/styles.css">
+    <link rel="icon" type="image/x-icon" href="../images/site/logo.png">
+    <link type="text/css" media="screen" rel="stylesheet" href="../css/styles.css">
     <title>PHP Motors</title>
 </head>
 
@@ -86,14 +86,14 @@
 
 
     <!--FOOTER SNIPPET-->
+    <!--FOOTER SNIPPET-->
     <?php
 
     require_once $_SERVER['DOCUMENT_ROOT'] . '/phpmotors/snippets/footer.php'
 
     ?>
 
-    <!-- JAVACRIPT -->
-    <script type="text/javascript" src="./js/home.js"></script>
+
 
 
 </body>

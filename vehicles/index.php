@@ -1,4 +1,6 @@
 <?php
+// Create or access a Session
+session_start();
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/phpmotors/model/main-model.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/phpmotors/model/vehicles-model.php';

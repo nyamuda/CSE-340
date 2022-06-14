@@ -1,3 +1,10 @@
+<?php
+require_once $_SERVER['DOCUMENT_ROOT'] . '/phpmotors/library/functions.php';
+//check to see if the user is authorize to see the page
+//the function is from the functions module
+checkAuthorization();
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 

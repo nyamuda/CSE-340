@@ -48,12 +48,36 @@ function checkClassification($classificationName)
 //Getting the first name of the client if their logged in
 function getSessionClientName()
 {
-    if (isset($_SESSION['clientData']['clientFirstName'])) {
-        $sessionFirstName = $_SESSION['clientData']['clientFirstName'];
+    if (isset($_SESSION['clientData']['clientFirstname'])) {
+        $sessionFirstName = $_SESSION['clientData']['clientFirstname'];
         //sanitize the data
         $sessionFirstName = filter_var($sessionFirstName, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
         //return the name
         return $sessionFirstName;
+    }
+}
+
+
+//check to see if the user is authorize to see the page
+function checkAuthorization()
+{
+    //1st we check to see if the user data has be saved to the session
+    //if its not saved, then we don't know this user
+    //so we take them to the home page
+    if (!isset($_SESSION['clientData']['clientLevel'])) {
+        header('Location: /phpmotors/');
+        exit;
+    }
+
+    //lets get the client level of the user
+    $clientLevel = $_SESSION['clientData']['clientLevel'];
+
+
+    //lastly, let's check if the user is not logged in 
+    //or if they have a client level equal to 1
+    if (!isset($_SESSION['loggedin']) || $clientLevel == 1) {
+        header('Location: /phpmotors/');
+        exit;
     }
 }

@@ -1,6 +1,6 @@
 <?php
-if (!!isset($_SESSION['loggein'])) {
-    header('Location: /phpmotors/accounts');
+if (!isset($_SESSION['loggedin'])) {
+    header('Location: /phpmotors/');
     exit;
 }
 ?>
@@ -11,8 +11,8 @@ if (!!isset($_SESSION['loggein'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="images/site/logo.png">
-    <link type="text/css" media="screen" rel="stylesheet" href="css/styles.css">
+    <link rel="icon" type="image/x-icon" href="../images/site/logo.png">
+    <link type="text/css" media="screen" rel="stylesheet" href="../css/styles.css">
     <title>PHP Motors</title>
 
 </head>
@@ -37,21 +37,41 @@ if (!!isset($_SESSION['loggein'])) {
     <main>
         <h1>
             <?php
-            $fullName = $_SESSION['clientData']['clientFirstName'] . " " . $_SESSION['clientData']['clientLastName'];
+            $fullName = $_SESSION['clientData']['clientFirstname'] . " " . $_SESSION['clientData']['clientLastname'];
             echo $fullName;
             ?>
         </h1>
 
-        <ul>
-            <?php
-            $data = $_SESSION['clientData'];
 
-            echo "<li>" . "First Name: " . $data['clientFirstName'] . '</li?';
-            echo  "<li>" . "Last Name: " . $data['clientLastName'] . '</li?';
-            echo  "<li>" . "Email: " . $data['clientEmail'] . '</li?';
 
-            ?>
-        </ul>
+
+        <?php
+        //A List of the client details
+        $data = $_SESSION['clientData'];
+
+        $firstName = $data['clientFirstname'];
+        $lastName = $data['clientLastname'];
+        $email = $data['clientEmail'];
+        $level = $data['clientLevel'];
+
+        $list = "<ul>";
+
+        $list .= "<li>First Name: $firstName</li>";
+        $list .= "<li>Last Name: $lastName</li>";
+        $list .= "<li>Email: $email</li>";
+
+        $list .= "</ul>";
+        echo $list;
+
+
+
+        if ($level > 1) {
+            $paragraph = "<p><a href='/phpmotors/vehicles/'>Vehicle</a></p>";
+            echo $paragraph;
+        }
+
+        ?>
+
 
 
         <hr>

@@ -137,11 +137,31 @@ function loginClient()
     array_pop($clientData);
     // Store the array into the session
     $_SESSION['clientData'] = $clientData;
+
+    //get the the first name of the client if they are logged in
+    //the function in the the 'functions' module
+    $sessionFirstName = getSessionClientName();
+
     // Send them to the admin view
     include '../view/admin.php';
     exit;
 }
 
+
+function logoutClient()
+{
+    unset($_SESSION['clientData']);
+
+    session_destroy();
+
+    header('Location: /phpmotors/');
+}
+
+
+
+//get the the first name of the client if they are logged in
+//the function in the the 'functions' module
+$sessionFirstName = getSessionClientName();
 
 switch ($action) {
     case 'account':
@@ -156,6 +176,9 @@ switch ($action) {
     case 'register':
         addClient();
         break;
+
+    case 'logout':
+        logoutClient();
 
     default:
         include '../view/admin.php';

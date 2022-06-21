@@ -37,6 +37,11 @@ function createSelectTag($selectedId = "")
         if ($selectedId == $id) {
             //so we add a 'selected' attribute to the option with that id
             $classificationList .= "<option selected value=$id>$name</option>";
+        } elseif (isset($invInfo['classificationId'])) {
+
+            if ($selectedId = $id) {
+                $classificationList .= "<option selected value=$id>$name</option>";
+            }
         } else {
             $classificationList .= "<option value=$id>$name</option>";
         }
@@ -167,6 +172,205 @@ function saveClassification()
     }
 }
 
+function getInvItems()
+{
+    //get the classification id
+    //sanitize the data
+    $classificationId = filter_input(INPUT_GET, 'classificationId', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+    //get inventory items by Id from the database
+    $inventoryArray = getInvItemsByClassificationId($classificationId);
+
+    echo json_encode($inventoryArray);
+}
+
+function getInventoryToUpdate()
+{
+    //get the inventory id
+    $invId = filter_input(INPUT_GET, 'invId', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    //fetch the inventory the database using the Id
+    $invInfo = getInvItemInfo($invId);
+
+
+    //to make the select tag sticky lets get the classification Id of the fetched inventory
+    if (isset($invInfo["classificationId"])) {
+        $classificationId = $invInfo["classificationId"];
+    }
+
+
+    if (count($invInfo) < 1) {
+        $message = 'Sorry, no vehicle information could be found.';
+    }
+
+    include '../view/vehicle-update.php';
+    exit;
+}
+
+
+function getInventoryToDelete()
+{
+    //get the inventory id
+    $invId = filter_input(INPUT_GET, 'invId', FILTER_VALIDATE_INT);
+    //fetch the inventory the database using the Id
+    $invInfo = getInvItemInfo($invId);
+
+
+
+
+    if (count($invInfo) < 1) {
+        $error_message = 'Sorry, no vehicle information could be found.';
+    }
+
+    include '../view/vehicle-delete.php';
+    exit;
+}
+
+
+
+//UPDATE VEHICLE INFO
+function changeVehicleInfo()
+{
+    //make $navBar, $classificationList and defaultImage accessible inside this function
+    global $dynamicNavBar;
+    global $classificationList;
+    global $defaultImage;
+
+    //get data from the user
+    //AND Sanitize the data
+    $invMake = trim(filter_input(INPUT_POST, 'invMake', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+    $invModel = trim(filter_input(INPUT_POST, 'invModel', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+    $invDescription = trim(filter_input(INPUT_POST, 'invDescription', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+    $invImage = trim(filter_input(INPUT_POST, 'invImage', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+    $invThumbnail = trim(filter_input(INPUT_POST, 'invThumbnail', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+    $invPrice = trim(filter_input(INPUT_POST, 'invPrice', FILTER_SANITIZE_FULL_SPECIAL_CHARS, FILTER_SANITIZE_NUMBER_FLOAT));
+    $invStock = trim(filter_input(INPUT_POST, 'invStock', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+    $invColor = trim(filter_input(INPUT_POST, 'invColor', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+    $classificationId = trim(filter_input(INPUT_POST, 'classificationId', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+
+    //get the id of the vehicle being updated
+    $invId = filter_input(INPUT_POST, 'invId', FILTER_SANITIZE_NUMBER_INT);
+
+
+
+    //if there are any empty fields
+    if (
+        empty($invMake) ||
+        empty($invModel) ||
+        empty($invDescription) ||
+        empty($invImage) ||
+        empty($invThumbnail) ||
+        empty($invPrice) ||
+        empty($invStock) ||
+        empty($invColor) ||
+        empty($classificationId)
+    ) {
+
+        $error_message = "<p class='error-message'>Please provide information for all empty form fields.</p>";
+        include '../view/add-vehicle.php';
+        exit;
+    }
+
+    //finally update the car
+    //using the updateVehicle function from the vehicles-model
+    $updateResult = updateVehicle(
+        $invId,
+        $invMake,
+        $invModel,
+        $invDescription,
+        $invImage,
+        $invThumbnail,
+        $invPrice,
+        $invStock,
+        $invColor,
+        $classificationId
+    );
+
+    //if the car was updated successfully
+    if ($updateResult == 1) {
+        //no error message
+        // $error_message = "";
+        $success_message = "<p class='success-message'>The vehicle was successfully updated.</p>";
+
+
+        //clearing all input fields
+        $invMake = "";
+        $invModel = "";
+        $invDescription = "";
+        $invImage = "";
+        $invThumbnail = "";
+        $invPrice = "";
+        $invStock = "";
+        $invColor = "";
+        $classificationId = "";
+
+        //save success message to the session
+
+        $_SESSION['success_message'] = "<p class='success-message'>The vehicle was successfully updated.</p>";
+
+
+        header('location: /phpmotors/vehicles/');
+
+        exit;
+    }
+    //if the car was not added successfully
+    else {
+        $error_message = "<p class='error-message'>Sorry, $invModel was not updated. Please try again.</p>";
+
+        include '../view/vehicle-update.php';
+        exit;
+    }
+}
+
+
+
+
+
+//DELETE VEHICLE 
+function removeVehicleInfo()
+{
+
+
+    //get data from the user
+    //AND Sanitize the data
+    $invMake = trim(filter_input(INPUT_POST, 'invMake', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+    $invModel = trim(filter_input(INPUT_POST, 'invModel', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+    $invDescription = trim(filter_input(INPUT_POST, 'invDescription', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+
+    //get the id of the vehicle being updated
+    $invId = filter_input(INPUT_POST, 'invId', FILTER_SANITIZE_NUMBER_INT);
+
+
+
+    //finally delete the car
+    //using the deleteVehicle function from the vehicles-model
+    $deleteResult = deleteVehicle($invId);
+
+    //if the car was added successfully
+    if ($deleteResult == 1) {
+        //no error message
+        // $error_message = "";
+        $success_message = "<p class='success-message'>The vehicle was successfully deleted</p>";
+
+
+        //save success message to the session
+
+        $_SESSION['success_message'] = $success_message;
+
+
+        header('location: /phpmotors/vehicles/');
+
+        exit;
+    }
+    //if the car was not deleted successfully
+    else {
+        $error_message = "<p class='error-message'>Error: $invMake $invModel was not
+        deleted.</p>";
+
+        $_SESSION['error_message'] = $error_message;
+        header('location: /phpmotors/vehicles/');
+        exit;
+    }
+}
 
 
 
@@ -187,7 +391,30 @@ switch ($action) {
         saveVehicle();
         break;
 
+    case 'getInventoryItems':
+        getInvItems();
+        break;
+
+    case 'mod':
+        getInventoryToUpdate();
+        break;
+
+    case 'update-vehicle':
+        changeVehicleInfo();
+        break;
+
+    case 'del':
+        getInventoryToDelete();
+        break;
+
+    case 'delete-vehicle':
+        removeVehicleInfo();
+        break;
+
+
     default:
+        $classifications = getClassifications();
+        $classificationList = buildClassificationList($classifications);
         include '../view/vehicle-management.php';
         break;
 }

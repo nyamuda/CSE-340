@@ -61,3 +61,111 @@ function addClassification($classificationName)
     $stmt = null;
     return $rowsAffected;
 }
+
+
+function getInvItemsByClassificationId($id)
+{
+    $sql = "SELECT * FROM inventory WHERE classificationId = :id";
+
+
+    $conn = phpmotorsConnect();
+    //prepare
+    $stmt = $conn->prepare($sql);
+
+    //bind data
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+
+    //execute
+    $stmt->execute();
+
+    $inventory = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $stmt = null;
+
+    return $inventory;
+}
+
+function getInvItemInfo($invId)
+{
+    $sql = "SELECT * FROM inventory WHERE invId=:invId";
+    $conn = phpmotorsConnect();
+    //prepare
+    $stmt = $conn->prepare($sql);
+
+    //bind
+    $stmt->bindParam(':invId', $invId, PDO::PARAM_INT);
+
+    //execute
+
+    $stmt->execute();
+
+    $inventory = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    $stmt = null;
+
+    return $inventory;
+}
+
+
+function updateVehicle(
+    $invId,
+    $invMake,
+    $invModel,
+    $invDescription,
+    $invImage,
+    $invThumbnail,
+    $invPrice,
+    $invStock,
+    $invColor,
+    $classificationId
+) {
+    $sql = 'UPDATE inventory SET invMake = :invMake, invModel = :invModel, 
+	invDescription = :invDescription, invImage = :invImage, 
+	invThumbnail = :invThumbnail, invPrice = :invPrice, 
+	invStock = :invStock, invColor = :invColor, 
+	classificationId = :classificationId WHERE invId = :invId';
+
+
+    //PREPARE
+    $conn = phpmotorsConnect();
+    $stmt = $conn->prepare($sql);
+
+    //BIND THE DATA
+
+    $stmt->bindParam(':invMake', $invMake, PDO::PARAM_STR);
+    $stmt->bindParam(':invModel', $invModel, PDO::PARAM_STR);
+    $stmt->bindParam(':invDescription', $invDescription, PDO::PARAM_STR);
+    $stmt->bindParam(':invImage', $invImage, PDO::PARAM_STR);
+    $stmt->bindParam(':invThumbnail', $invThumbnail, PDO::PARAM_STR);
+    $stmt->bindParam(':invPrice', $invPrice, PDO::PARAM_STR);
+    $stmt->bindParam(':invStock', $invStock, PDO::PARAM_INT);
+    $stmt->bindParam(':invColor', $invColor, PDO::PARAM_STR);
+    $stmt->bindParam(':classificationId', $classificationId, PDO::PARAM_INT);
+    $stmt->bindValue(':invId', $invId, PDO::PARAM_INT);
+
+    //EXECUTE
+    $stmt->execute();
+    $rowsAffected = $stmt->rowCount();
+    $stmt = null;
+    return $rowsAffected;
+}
+
+
+
+function deleteVehicle($invId)
+{
+    $sql = $sql = 'DELETE FROM inventory WHERE invId = :invId';
+
+    //PREPARE
+    $conn = phpmotorsConnect();
+    $stmt = $conn->prepare($sql);
+
+    //BIND THE DATA
+
+    $stmt->bindValue(':invId', $invId, PDO::PARAM_INT);
+
+    //EXECUTE
+    $stmt->execute();
+    $rowsAffected = $stmt->rowCount();
+    $stmt = null;
+    return $rowsAffected;
+}

@@ -3,6 +3,15 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/phpmotors/library/functions.php';
 //check to see if the user is authorize to see the page
 //the function is from the functions module
 checkAuthorization();
+
+
+if (isset($_SESSION['success_message'])) {
+    $message = $_SESSION['success_message'];
+}
+
+if (isset($_SESSION['error_message'])) {
+    $message = $_SESSION['error_message'];
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -43,6 +52,23 @@ checkAuthorization();
             <li><a href="/phpmotors/vehicles/index.php?action=vehicle">Add Vehicle</a></li>
         </ul>
 
+        <?php
+        if (isset($message)) {
+            echo $message;
+        }
+
+        if (isset($classificationList)) {
+            echo '<h2>Vehicles By Classification</h2>';
+            echo '<p>Choose a classification to see those vehicles</p>';
+
+            echo $classificationList;
+        }
+        ?>
+        <noscript>
+            <p><strong>JavaScript Must Be Enabled to Use this Page.</strong></p>
+        </noscript>
+        <table id="inventoryDisplay"></table>
+
         <hr>
 
     </main>
@@ -56,6 +82,10 @@ checkAuthorization();
     ?>
 
 
+    <script src="../js/inventory.js"></script>
 </body>
 
 </html>
+
+<?php unset($_SESSION['success_message']); ?>
+<?php unset($_SESSION['error_message']); ?>

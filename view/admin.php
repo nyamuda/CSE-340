@@ -3,6 +3,9 @@ if (!isset($_SESSION['loggedin'])) {
     header('Location: /phpmotors/');
     exit;
 }
+if (isset($_SESSION['success_message'])) {
+    $message = $_SESSION['success_message'];
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -42,9 +45,14 @@ if (!isset($_SESSION['loggedin'])) {
             ?>
         </h1>
 
+        <?php
+        echo $message;
+        ?>
 
 
 
+
+        <p>You're logged in.</p>
         <?php
         //A List of the client details
         $data = $_SESSION['clientData'];
@@ -63,10 +71,24 @@ if (!isset($_SESSION['loggedin'])) {
         $list .= "</ul>";
         echo $list;
 
+        ?>
+
+        <h2>Account Management</h2>
+        <p>Use the link to update account information.</p>
+        <p><a href="/phpmotors/accounts/index.php?action=mod">Update account information</a></p>
+
+
+
+        <?php
 
 
         if ($level > 1) {
             $paragraph = "<p><a href='/phpmotors/vehicles/'>Vehicle</a></p>";
+            $description = "<p>Use this link to manage the inventory.</p>";
+            $heading = "<h2>Inventory Management</h2>";
+
+            echo $heading;
+            echo $description;
             echo $paragraph;
         }
 
@@ -90,3 +112,4 @@ if (!isset($_SESSION['loggedin'])) {
 </body>
 
 </html>
+<?php unset($_SESSION['success_message']); ?>

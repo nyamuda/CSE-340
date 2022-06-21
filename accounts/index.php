@@ -41,6 +41,13 @@ function addClient()
     $clientEmail = checkEmail($clientEmail);
     $checkPassword = checkPassword($clientPassword);
 
+    //if its not a valid email
+    if (!$clientEmail) {
+        $error_message = "<p class='error-message'>Please enter a valid email address</p>";
+        include '../view/login.php';
+        exit;
+    }
+
 
     //checking if the email already exists
 
@@ -112,7 +119,7 @@ function loginClient()
 
     // A valid password exists, proceed with the login process
     // Query the client data based on the email address
-    $clientData = getClient($clientEmail);
+    $clientData = getClientByEmail($clientEmail);
 
 
     // Compare the password just submitted against
@@ -159,9 +166,153 @@ function logoutClient()
 
 
 
-//get the the first name of the client if they are logged in
-//the function in the the 'functions' module
-$sessionFirstName = getSessionClientName();
+
+//UPDATE ACCOUNT INFO
+function changeAccountInfo()
+{
+    //make navBar accessible inside this function
+    global $dynamicNavBar;
+
+    //Sanitize Input
+    $clientFirstname = trim(filter_input(INPUT_POST, 'clientFirstname', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+    $clientLastname = trim(filter_input(INPUT_POST, 'clientLastname'), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $clientEmail = trim(filter_input(INPUT_POST, 'clientEmail', FILTER_SANITIZE_EMAIL));
+    //get the id of the client being updated
+    $clientId = filter_input(INPUT_POST, 'clientId', FILTER_SANITIZE_NUMBER_INT);
+
+
+    //Validate email
+    $clientEmail = checkEmail($clientEmail);
+
+
+    if (!$clientEmail) {
+        $error_message = "<p class='error-message'>Please enter a valid email address</p>";
+        include '../view/client-update.php';
+        exit;
+    }
+
+    //check to see if the new email is different from the one in the session
+    //and if its different, we check to see if there isn't any client who already 
+    //has that email
+    if ($_SESSION['clientData']['clientEmail'] != $clientEmail) {
+
+
+        //checking if the email already exists
+
+        $existEmail = checkEmailExist($clientEmail);
+
+        if ($existEmail) {
+
+            $error_message = "<p class='error-message'>That email address already exists.</p>";
+
+            include '../view/client-update.php';
+            exit;
+        }
+    }
+
+
+
+    //Check if the rest of the rest of the data is as expected.
+    if (empty($clientFirstname) || empty($clientLastname) || empty($clientEmail)) {
+        $error_message = "<p class='error-message'>Please provide information for all empty form fields.</p>";
+        include '../view/client-update.php';
+        exit;
+    }
+
+    //finally update the client
+    //using the updateClient function from the accounts-model
+    $updateResult = updateClient(
+        $clientId,
+        $clientFirstname,
+        $clientLastname,
+        $clientEmail
+    );
+
+    //if the client was updated successfully
+    if ($updateResult == 1) {
+
+        //we update clientData in the session since the client data has be updated;
+        //so lets get the client's updated infomation from the database
+        //we use the getClientById function from the model 
+        $clientData = getClientById($clientId);
+
+
+        // Remove the password from the array
+        // the array_pop function removes the last
+        // element from an array
+        array_pop($clientData);
+        // Store the array into the session
+        $_SESSION['clientData'] = $clientData;
+
+        $success_message = "<p class='success-message'>The client was successfully updated.</p>";
+
+
+        //save success message to the session
+
+        $_SESSION['success_message'] = $success_message;
+
+
+        header('location: /phpmotors/accounts/');
+
+        exit;
+    }
+    //if the password was not added successfully
+    else {
+        $error_message = "<p class='error-message'>Sorry, account was not updated. Please try again.</p>";
+
+        include '../view/client-update.php';
+        exit;
+    }
+}
+
+
+function changeAccountPassword()
+{
+    $clientPassword = trim(filter_input(INPUT_POST, 'clientPassword', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+    //get the id of the client being updated
+    $clientId = filter_input(INPUT_POST, 'clientId', FILTER_SANITIZE_NUMBER_INT);
+
+    //validate the password
+    $checkPassword = checkPassword($clientPassword);
+
+    if (empty($checkPassword)) {
+        $password_error_message = "<p class='error-message'>Please provide a valid password.</p>";
+        include '../view/client-update.php';
+        exit;
+    }
+
+    $hashedPassword = password_hash($checkPassword, PASSWORD_DEFAULT);
+
+    //store the new password to the database
+    //updateClientPassword is in the accounts-model
+    $updateResult = updateClientPassword($clientId, $hashedPassword);
+
+    //if the password was updated successfully
+    if ($updateResult == 1) {
+
+
+        $success_message = "<p class='success-message'>The password was successfully updated.</p>";
+
+        //save success message to the session
+
+        $_SESSION['success_message'] = $success_message;
+
+
+        header('location: /phpmotors/accounts/');
+
+        exit;
+    }
+    //if the password was not added successfully
+    else {
+        $error_message = "<p class='error-message'>Sorry, the password was not updated. Please try again.</p>";
+
+        include '../view/client-update.php';
+        exit;
+    }
+}
+
+
+
 
 switch ($action) {
     case 'account':
@@ -172,6 +323,7 @@ switch ($action) {
         break;
     case 'login':
         loginClient();
+        break;
 
     case 'register':
         addClient();
@@ -179,7 +331,19 @@ switch ($action) {
 
     case 'logout':
         logoutClient();
+        break;
 
+    case 'mod':
+        include '../view/client-update.php';
+        break;
+
+    case 'update-account':
+        changeAccountInfo();
+        break;
+
+    case 'change-password':
+        changeAccountPassword();
+        break;
     default:
         include '../view/admin.php';
         break;

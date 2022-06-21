@@ -86,6 +86,5 @@ if (isset($_SESSION['error_message'])) {
 </body>
 
 </html>
-
 <?php unset($_SESSION['success_message']); ?>
 <?php unset($_SESSION['error_message']); ?>

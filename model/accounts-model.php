@@ -46,7 +46,7 @@ function checkEmailExist($email)
 
 
 // Get client data based on an email address
-function getClient($clientEmail)
+function getClientByEmail($clientEmail)
 {
     $db = phpmotorsConnect();
     $sql = 'SELECT clientId, clientFirstname, clientLastname, clientEmail, clientLevel, clientPassword FROM clients WHERE clientEmail = :clientEmail';
@@ -56,4 +56,73 @@ function getClient($clientEmail)
     $clientData = $stmt->fetch(PDO::FETCH_ASSOC);
     $stmt = null;
     return $clientData;
+}
+
+
+function updateClient($clientId, $clientFirstname, $clientLastname, $clientEmail)
+{
+    $sql = 'UPDATE clients SET clientFirstname = :clientFirstname, clientLastname = :clientLastname, clientEmail = :clientEmail
+	WHERE clientId = :clientId';
+
+
+    //PREPARE
+    $conn = phpmotorsConnect();
+    $stmt = $conn->prepare($sql);
+
+    //BIND THE DATA
+    $stmt->bindParam(':clientId', $clientId, PDO::PARAM_INT);
+    $stmt->bindParam(':clientFirstname', $clientFirstname, PDO::PARAM_STR);
+    $stmt->bindParam(':clientLastname', $clientLastname, PDO::PARAM_STR);
+    $stmt->bindParam(':clientEmail', $clientEmail, PDO::PARAM_STR);
+
+
+
+    //EXECUTE
+    $stmt->execute();
+    $rowsAffected = $stmt->rowCount();
+    $stmt = null;
+    return $rowsAffected;
+}
+
+
+function getClientById($clientId)
+{
+    $db = phpmotorsConnect();
+    $sql = 'SELECT clientId, clientFirstname, clientLastname, clientEmail, clientLevel, clientPassword FROM clients WHERE clientId = :clientId';
+
+    //prepare
+    $stmt = $db->prepare($sql);
+
+    //bind
+    $stmt->bindValue(':clientId', $clientId, PDO::PARAM_INT);
+
+    //execute
+    $stmt->execute();
+
+    $clientData = $stmt->fetch(PDO::FETCH_ASSOC);
+    $stmt = null;
+    return $clientData;
+}
+
+
+function updateClientPassword($clientId, $clientPassword)
+{
+    $db = phpmotorsConnect();
+    $sql = 'UPDATE clients SET clientPassword = :clientPassword
+	WHERE clientId = :clientId';
+
+    //prepare
+    $stmt = $db->prepare($sql);
+
+    //bind
+    $stmt->bindValue(':clientId', $clientId, PDO::PARAM_INT);
+
+    $stmt->bindValue(':clientPassword', $clientPassword, PDO::PARAM_STR);
+
+    //execute
+    $stmt->execute();
+
+    $rowsAffected = $stmt->rowCount();
+    $stmt = null;
+    return $rowsAffected;
 }

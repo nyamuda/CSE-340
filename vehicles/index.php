@@ -329,7 +329,6 @@ function changeVehicleInfo()
 function removeVehicleInfo()
 {
 
-
     //get data from the user
     //AND Sanitize the data
     $invMake = trim(filter_input(INPUT_POST, 'invMake', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
@@ -373,6 +372,23 @@ function removeVehicleInfo()
 }
 
 
+function showCarsByClassification()
+{
+
+    //make navBar accessible inside this function
+    global $dynamicNavBar;
+
+    $classificationName = filter_input(INPUT_GET, 'classificationName', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $vehicles = getVehiclesByClassification($classificationName);
+    if (!count($vehicles)) {
+        $message = "<p class='notice'>Sorry, no $classificationName vehicles could be found.</p>";
+    } else {
+        $vehicleDisplay = buildVehiclesDisplay($vehicles);
+    }
+    include '../view/classification.php';
+}
+
+
 
 switch ($action) {
     case 'classification':
@@ -409,6 +425,10 @@ switch ($action) {
 
     case 'delete-vehicle':
         removeVehicleInfo();
+        break;
+
+    case 'show-vehicles-by-classification':
+        showCarsByClassification();
         break;
 
 

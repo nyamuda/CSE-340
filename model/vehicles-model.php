@@ -169,3 +169,25 @@ function deleteVehicle($invId)
     $stmt = null;
     return $rowsAffected;
 }
+
+
+//fetching vehicles based on their classification
+
+function getVehiclesByClassification($classificationName)
+{
+    $sql = 'SELECT * FROM inventory WHERE classificationId IN (SELECT classificationId FROM carclassification WHERE classificationName = :classificationName)';
+
+    //PREPARE
+    $conn = phpmotorsConnect();
+    $stmt = $conn->prepare($sql);
+
+    //BIND THE DATA
+
+    $stmt->bindValue(':classificationName', $classificationName, PDO::PARAM_STR);
+
+    //EXECUTE
+    $stmt->execute();
+    $vehicles = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $stmt = null;
+    return $vehicles;
+}

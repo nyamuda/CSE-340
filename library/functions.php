@@ -19,13 +19,14 @@ function checkPassword($clientPassword)
 function navBar()
 {
     $classifications = getClassifications();
-    $rootUrl = "/phpmotors/index.html";
+    $rootUrl = "/phpmotors/";
     $navList = "<ul>";
     $navList .= "<li><a href='$rootUrl' title='View the PHP Motors home page'>Home</a></li>";
     foreach ($classifications as $classification) {
         $name = $classification['classificationName'];
         $encodedName = urlencode($name);
-        $navList .= "<li><a href='$rootUrl?action=$encodedName' title= 'View our $name product line'>$name</a></li>";
+        $fullLink = $rootUrl . "vehicles?action=show-vehicles-by-classification&classificationName=$encodedName";
+        $navList .= "<li><a href=$fullLink title='View our $name product line'>$name</a></li>";
     }
     $navList .= "</ul>";
 
@@ -96,3 +97,21 @@ function buildClassificationList($classifications)
     return $classificationList;
 }
 
+
+
+//Building a display of vehicles
+
+function buildVehiclesDisplay($vehicles)
+{
+    $dv = '<ul id="inv-display">';
+    foreach ($vehicles as $vehicle) {
+        $dv .= '<li>';
+        $dv .= "<img src='/phpmotors$vehicle[invThumbnail]' alt='Image of $vehicle[invMake] $vehicle[invModel] on phpmotors.com'>";
+        $dv .= '<hr>';
+        $dv .= "<h2>$vehicle[invMake] $vehicle[invModel]</h2>";
+        $dv .= "<span>$vehicle[invPrice]</span>";
+        $dv .= '</li>';
+    }
+    $dv .= '</ul>';
+    return $dv;
+}

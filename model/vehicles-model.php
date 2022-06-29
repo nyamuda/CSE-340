@@ -175,7 +175,15 @@ function deleteVehicle($invId)
 
 function getVehiclesByClassification($classificationName)
 {
-    $sql = 'SELECT * FROM inventory WHERE classificationId IN (SELECT classificationId FROM carclassification WHERE classificationName = :classificationName)';
+    $sql = "SELECT invId ,
+    invMake,
+    invModel ,
+    invDescription,
+    invImage ,
+    invThumbnail ,
+    CONCAT('$',FORMAT(invPrice,0,'en_US')) AS invPrice,
+    invStock,
+    invColor, classificationId FROM inventory WHERE classificationId IN (SELECT classificationId FROM carclassification WHERE classificationName = :classificationName)";
 
     //PREPARE
     $conn = phpmotorsConnect();
@@ -190,4 +198,33 @@ function getVehiclesByClassification($classificationName)
     $vehicles = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $stmt = null;
     return $vehicles;
+}
+
+
+function getVehicleById($vehicleId)
+{
+    $sql = "SELECT invId ,
+    invMake,
+    invModel ,
+    invDescription,
+    invImage ,
+    invThumbnail ,
+    CONCAT('$',FORMAT(invPrice,0,'en_US')) AS invPrice,
+    invStock,
+    invColor ,
+    classificationId FROM inventory WHERE invId=:vehicleId";
+
+
+    $conn = phpmotorsConnect();
+    //prepare
+    $stmt = $conn->prepare($sql);
+
+    //bind
+    $stmt->bindValue(":vehicleId", $vehicleId, PDO::PARAM_INT);
+
+    //execute
+    $stmt->execute();
+    $vehicle = $stmt->fetch(PDO::FETCH_ASSOC);
+    $stmt = null;
+    return $vehicle;
 }

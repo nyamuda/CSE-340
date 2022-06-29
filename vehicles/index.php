@@ -372,6 +372,7 @@ function removeVehicleInfo()
 }
 
 
+//show vehicles based on their classification
 function showCarsByClassification()
 {
 
@@ -389,6 +390,26 @@ function showCarsByClassification()
 }
 
 
+//display vehicle information based on id
+
+function showVehicleInfo()
+{
+    //make navBar accessible inside this function
+    global $dynamicNavBar;
+
+    $vehicleId = filter_input(INPUT_GET, 'vehicleId', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+    $vehicle = getVehicleById($vehicleId);
+    $vehicleName = $vehicle['invMake'] . " " . $vehicle['invModel'];
+
+    if (count($vehicle) < 1) {
+        $message = "Sorry,vehicle information not found.";
+    } else {
+        $vehicleInfo = buildVehicleInfo($vehicle);
+    }
+
+    include '../view/vehicle-detail.php';
+}
 
 switch ($action) {
     case 'classification':
@@ -429,6 +450,10 @@ switch ($action) {
 
     case 'show-vehicles-by-classification':
         showCarsByClassification();
+        break;
+
+    case 'vehicle-info':
+        showVehicleInfo();
         break;
 
 

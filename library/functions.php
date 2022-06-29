@@ -25,8 +25,8 @@ function navBar()
     foreach ($classifications as $classification) {
         $name = $classification['classificationName'];
         $encodedName = urlencode($name);
-        $fullLink = $rootUrl . "vehicles?action=show-vehicles-by-classification&classificationName=$encodedName";
-        $navList .= "<li><a href=$fullLink title='View our $name product line'>$name</a></li>";
+        $fullLink = $rootUrl . 'vehicles?action=show-vehicles-by-classification&amp;classificationName=' . "$encodedName";
+        $navList .= "<li><a href='$fullLink' title='View our $name product line'>$name</a></li>";
     }
     $navList .= "</ul>";
 
@@ -103,15 +103,59 @@ function buildClassificationList($classifications)
 
 function buildVehiclesDisplay($vehicles)
 {
-    $dv = '<ul id="inv-display">';
+    $dv = "<ul class='items-list'>";
     foreach ($vehicles as $vehicle) {
-        $dv .= '<li>';
-        $dv .= "<img src='/phpmotors$vehicle[invThumbnail]' alt='Image of $vehicle[invMake] $vehicle[invModel] on phpmotors.com'>";
+
+        //wrapping the <li></li> tag inside an <a></a> tag
+        $vehicleId = $vehicle['invId'];
+        $fullLink = "/phpmotors/vehicles/?action=vehicle-info&vehicleId=$vehicleId";
+        $anchorTag = "<a class='items-list__link' href=$fullLink>";
+
+        $dv .= $anchorTag;
+
+        $dv .= "<li class='items-list__vehicle'>";
+        $dv .= "<img class='items-list__img' src='$vehicle[invThumbnail]' alt='Image of $vehicle[invMake] $vehicle[invModel] on phpmotors.com'>";
         $dv .= '<hr>';
-        $dv .= "<h2>$vehicle[invMake] $vehicle[invModel]</h2>";
-        $dv .= "<span>$vehicle[invPrice]</span>";
+        $dv .= "<div class='items-list__text'>";
+        $dv .= "<h2 class='items-list-title'>$vehicle[invMake] $vehicle[invModel]</h2>";
+        $dv .= "<span class='items-list__price'>$vehicle[invPrice]</span>";
+        $dv .= "</div>";
         $dv .= '</li>';
+
+        $dv .= "</a>";
     }
     $dv .= '</ul>';
     return $dv;
+}
+
+
+//build html display of a vehicle
+
+function buildVehicleInfo($vehicle)
+
+{
+    $vehicleName = $vehicle['invMake'] . " " . $vehicle['invModel'];
+    $vehicleDescription = $vehicle['invDescription'];
+    $vehicleImage = $vehicle['invImage'];
+    $vehiclePrice = $vehicle['invPrice'];
+    $vehicleStock = $vehicle['invStock'];
+    $vehicleColor = $vehicle['invColor'];
+
+
+    $item = " <div class='item'>";
+
+    $itemBlock1 = " <div class='item__block1'>";
+    $itemBlock1 .= "<img class='item__img' src='$vehicleImage' alt='image of $vehicleName'><p>Price: $vehiclePrice</p>";
+    $itemBlock1 .= '</div>';
+
+    $itemBlock2 = " <div class='item__block2'>";
+    $itemBlock2 .= "<h2>Vehicle Details</h2><p>$vehicleDescription</p><p>Color: $vehicleColor</p><p>No. in stock: $vehicleStock</p>";
+    $itemBlock2 .= '</div>';
+
+    $item .= $itemBlock1;
+    $item .= $itemBlock2;
+
+    $item .= '</div>';
+
+    return $item;
 }

@@ -6,11 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="../images/site/logo.png">
-    <title><?php echo $classificationName; ?> vehicles | PHP Motors, Inc.</title>
+    <title><?php echo $vehicleName; ?> Details| PHP Motors, Inc.</title>
     <link type="text/css" media="screen" rel="stylesheet" href="../css/styles.css">
-    <style>
-   
-    </style>
 </head>
 
 <body>
@@ -31,18 +28,33 @@
         </nav>
     </header>
     <main>
-        <h1><?php echo $classificationName; ?> vehicles</h1>
+        <h1><?php echo $vehicleName; ?></h1>
 
         <?php if (isset($message)) {
             echo $message;
         }
         ?>
 
-        <?php if (isset($vehicleDisplay)) {
-            echo $vehicleDisplay;
+        <?php if (isset($vehicleInfo)) {
+            echo $vehicleInfo;
         } ?>
 
         <hr>
+        <!-- 
+        <div class="item">
+            <div class="item__block1">
+                <p>Title</p>
+                <img src="" alt="">
+                <p>Price:</p>
+            </div>
+
+            <div class="item__block2">
+                <p>Vehicle Details</p>
+                <p>Description</p>
+                <p>Color:</p>
+                <p>No. in stock: </p>
+            </div>
+        </div> -->
 
     </main>
 

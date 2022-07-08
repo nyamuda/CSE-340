@@ -275,6 +275,7 @@ figcaption a {
 }
 
 
+input[type=file],
 select,
 input[type=text],
 input[type=password],
@@ -286,10 +287,17 @@ input[type=email] {
     font-weight: 300;
     padding: .5em 1em;
     border: none;
-    color: #555555;
     font-weight: 300;
     height: 45px;
     outline: none;
+}
+
+select {
+    color: #555555;
+}
+
+input[type=file] {
+padding-left:0rem;
 }
 
 input[type=submit] {
@@ -516,6 +524,34 @@ input[type=submit] {
 
 
 }
+
+
+/* UPLOADS PAGE START */
+.upload-block {
+    margin-left: 0rem;
+    margin-top: 0rem;
+
+}
+
+.image-display {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    gap: 1rem;
+}
+
+
+@media (min-width:768px) {
+    .image-display {
+        display: grid;
+        grid-template-columns: repeat(2, auto);
+        align-items: flex-end;
+
+    }
+
+
+}
+/* UPLOADS PAGE END */
 
 
 

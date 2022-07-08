@@ -35,10 +35,17 @@
         }
         ?>
 
-        <?php if (isset($vehicleInfo)) {
-            echo $vehicleInfo;
-        } ?>
+        <div id="vehicle-data">
+            <?php if (isset($builtThumbnails)) {
+                echo  $builtThumbnails;
+            } ?>
 
+
+            <?php if (isset($vehicleInfo)) {
+                echo $vehicleInfo;
+            } ?>
+
+        </div>
         <hr>
         <!-- 
         <div class="item">

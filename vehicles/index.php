@@ -5,6 +5,7 @@ session_start();
 require_once $_SERVER['DOCUMENT_ROOT'] . '/phpmotors/model/main-model.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/phpmotors/model/vehicles-model.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/phpmotors/library/functions.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/phpmotors/model/uploads-model.php';
 
 
 //Dynamic Nav Bar
@@ -380,6 +381,8 @@ function showCarsByClassification()
     global $dynamicNavBar;
 
     $classificationName = filter_input(INPUT_GET, 'classificationName', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    //get vehicles by the classification from the database
+    //getVehiclesByClassification() function is in the vehicles model
     $vehicles = getVehiclesByClassification($classificationName);
     if (!count($vehicles)) {
         $message = "<p class='notice'>Sorry, no $classificationName vehicles could be found.</p>";
@@ -399,7 +402,17 @@ function showVehicleInfo()
 
     $vehicleId = filter_input(INPUT_GET, 'vehicleId', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
+    //getting the vehicle
     $vehicle = getVehicleById($vehicleId);
+
+    //getting all the thumbnails for the vehicle
+    $thumbnails = getThumbnailsByVehicleId($vehicleId);
+
+
+    //build the thumbnails
+
+    $builtThumbnails = buildVehicleThumbnails($thumbnails);
+
     $vehicleName = $vehicle['invMake'] . " " . $vehicle['invModel'];
 
     if (count($vehicle) < 1) {

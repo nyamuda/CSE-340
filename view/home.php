@@ -40,7 +40,7 @@
         <div class="car-container">
             <button class="dole-btn">Own Today</button>
             <div class="dole-img">
-                <img src="images/delorean.jpg" alt="DMC Dolerean">
+                <img src="images/vehicles/delorean.jpg" alt="DMC Dolerean">
             </div>
 
         </div>

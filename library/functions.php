@@ -328,3 +328,30 @@ function resizeImage($old_image_path, $new_image_path, $max_width, $max_height)
     // Free any memory associated with the old image
     imagedestroy($old_image);
 } // ends resizeImage function
+
+
+//building all the thumbnails for a vehicle
+function buildVehicleThumbnails($thumbnails)
+{
+    $container = "<div>";
+    $block = "<div id='thumbnail-block'>";
+    $title = "<h3 id='thumbnail-mobile-title'>Vehicle Thumbnails</h3>";
+    $container .= $title;
+
+    foreach ($thumbnails as $thumbnail) {
+        $url = $thumbnail['invThumbnail'];
+        $text = "thumbnail image for " . $thumbnail['invMake'] . ' ' . $thumbnail['invModel'];
+        $img = "<img src=$url alt='$text'>";
+
+        $block .= $img;
+    }
+
+    $block .= "</div>";
+
+    $container .= $block;
+
+    $container .= "</div>";
+
+
+    return $container;
+}

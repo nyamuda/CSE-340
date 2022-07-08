@@ -175,15 +175,18 @@ function deleteVehicle($invId)
 
 function getVehiclesByClassification($classificationName)
 {
-    $sql = "SELECT invId ,
+    $sql = "SELECT im.invId,
     invMake,
     invModel ,
     invDescription,
-    invImage ,
-    invThumbnail ,
+    imgPath AS invThumbnail,
     CONCAT('$',FORMAT(invPrice,0,'en_US')) AS invPrice,
     invStock,
-    invColor, classificationId FROM inventory WHERE classificationId IN (SELECT classificationId FROM carclassification WHERE classificationName = :classificationName)";
+    invColor, 
+    classificationId 
+    FROM inventory i JOIN images im USING (invId)
+    WHERE classificationId IN (SELECT classificationId FROM carclassification WHERE classificationName = :classificationName) 
+    AND imgName LIKE '%tn.jpg' AND imgPrimary=1";
 
     //PREPARE
     $conn = phpmotorsConnect();
@@ -197,6 +200,7 @@ function getVehiclesByClassification($classificationName)
     $stmt->execute();
     $vehicles = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $stmt = null;
+
     return $vehicles;
 }
 
@@ -207,12 +211,12 @@ function getVehicleById($vehicleId)
     invMake,
     invModel ,
     invDescription,
-    invImage ,
+    img.imgPath as invImage ,
     invThumbnail ,
     CONCAT('$',FORMAT(invPrice,0,'en_US')) AS invPrice,
     invStock,
     invColor ,
-    classificationId FROM inventory WHERE invId=:vehicleId";
+    classificationId FROM inventory JOIN images img USING (invId) WHERE invId=:vehicleId";
 
 
     $conn = phpmotorsConnect();

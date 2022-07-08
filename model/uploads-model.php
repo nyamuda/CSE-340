@@ -69,3 +69,32 @@ function checkExistingImage($imgName)
     $stmt->closeCursor();
     return $imageMatch;
 }
+
+//getting thumbnail images by vehicle Id
+
+function getThumbnailsByVehicleId($vehicleId)
+{
+    $sql = "SELECT img.invId,
+    invMake,
+    invModel ,
+    imgPath AS invThumbnail
+    FROM inventory i JOIN images img USING (invId)
+    WHERE i.invId=:vehicleId
+    AND imgName LIKE '%tn.jpg'";
+
+    //PREPARE
+    $conn = phpmotorsConnect();
+    $stmt = $conn->prepare($sql);
+
+    //BIND THE DATA
+
+    $stmt->bindValue(':vehicleId', $vehicleId, PDO::PARAM_INT);
+
+    //EXECUTE
+    $stmt->execute();
+    $thumbnails = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $stmt = null;
+
+    return $thumbnails;
+}

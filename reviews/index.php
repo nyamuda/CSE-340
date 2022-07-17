@@ -77,7 +77,7 @@ function getReviewInfo()
 
 
 //DELETE A PARTICULAR REVIEW
-function deleteReview()
+function deleteClientReview()
 {
     $reviewId = trim(filter_input(INPUT_GET, 'reviewId', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
     $rowsChanged = deleteReviewById($reviewId);
@@ -134,14 +134,16 @@ switch ($action) {
         include '../view/review-update.php';
 
     case 'Edit':
+        updateClientReview();
         break;
 
     case 'delete':
-        editReview();
+        $review = getReviewInfo();
+        include '../view/review-update.php';
         break;
 
     case 'Delete':
-        editReview();
+        deleteClientReview();
         break;
 
     default:

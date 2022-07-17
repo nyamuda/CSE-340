@@ -365,8 +365,7 @@ function buildAllVehicleReviews($reviews)
     foreach ($reviews as $review) {
         $clientFirstname = $review['clientFirstname'];
         $clientLastname = $review['clientLastname'];
-        $clientScreenName = substr($clientFirstname, 0, 1) . substr($clientLastname, 0);
-
+        $clientScreenName = $clientScreenName = strtoupper(substr($clientFirstname, 0, 1)) . strtoupper(substr($clientLastname, 0, 1)) . substr($clientLastname, 1);
         $reviewDate = $review['reviewDate'];
         $reviewText = $review['reviewText'];
 

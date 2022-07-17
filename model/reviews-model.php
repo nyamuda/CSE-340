@@ -24,8 +24,8 @@ function insertClientReview($invId, $clientId, $reviewText)
 //FOR A PARTICULAR VEHICLE
 function getAllVehicleReviews($invId)
 {
-    $sql = "SELECT reviewText, reviewDate, clientFirstname, clientLastname 
-    FROM reviews JOIN clients c USING(clientId) JOIN inventory inv USING(invId) WHERE inv.invId=:invId";
+    $sql = "SELECT reviewText, DATE_FORMAT(reviewDate, '%d %M, %Y') AS reviewDate, clientFirstname, clientLastname 
+    FROM reviews rv JOIN clients c USING(clientId) JOIN inventory inv USING(invId) WHERE inv.invId=:invId ORDER BY rv.reviewDate DESC";
 
     //prapare
     $object = phpmotorsConnect();
@@ -48,8 +48,8 @@ function getAllVehicleReviews($invId)
 //FOR A PARTICULAR CLIENT
 function getAllClientReviews($clientId)
 {
-    $sql = "SELECT reviewId, reviewText, reviewDate, invId, invMake, invModel
-    FROM reviews JOIN clients c USING(clientId) JOIN inventory inv USING(invId) WHERE c.clientId=:clientId";
+    $sql = "SELECT reviewId, reviewText, DATE_FORMAT(reviewDate, '%d %M, %Y') AS reviewDate, invId, invMake, invModel
+    FROM reviews rv JOIN clients c USING(clientId) JOIN inventory inv USING(invId) WHERE c.clientId=:clientId ORDER BY rv.reviewDate";
 
     //prapare
     $object = phpmotorsConnect();
@@ -95,8 +95,9 @@ function deleteReviewById($reviewId)
 
 function  getReviewById($reviewId)
 {
-    $sql = "SELECT reviewId, reviewText,
-    reviewDate, invMake, invModel FROM reviews JOIN inventory USING (invId) WHERE reviewId=:reviewId";
+    $sql = "SELECT reviewId, reviewText, 
+    DATE_FORMAT(reviewDate, '%d %M, %Y') AS reviewDate, invMake, invModel 
+    FROM reviews JOIN inventory USING (invId) WHERE reviewId=:reviewId";
 
 
     $conn = phpmotorsConnect();

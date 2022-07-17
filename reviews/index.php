@@ -30,7 +30,7 @@ function clientScreenName()
         $clientId = $_SESSION['clientData']['clientId'];
         $clientFirstname = $_SESSION['clientData']['clientFirstname'];
         $clientLastname = $_SESSION['clientData']['clientLastname'];
-        $clientScreenName = substr($clientFirstname, 0, 1) . substr($clientLastname, 0);
+        $clientScreenName = strtoupper(substr($clientFirstname, 0, 1)) . strtoupper(substr($clientLastname, 0, 1)) . substr($clientLastname, 1);
 
         return $clientScreenName;
     }
@@ -59,7 +59,7 @@ function addReview()
 
     if ($rowsChanged == 1) {
 
-        $message = "<p class='success-message'>Thank you for leaving a comment. The review was added successfully.</p>";
+        $message = "<p class='success-message'>Thank you for leaving a comment. The review was added successfully and is displayed below.</p>";
         $_SESSION['message'] = $message;
         header("location: /phpmotors/vehicles/index.php?action=vehicle-info&vehicleId=$invId");
         exit;

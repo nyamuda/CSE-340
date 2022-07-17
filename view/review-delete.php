@@ -53,12 +53,13 @@ if (!isset($_SESSION['loggedin'])) {
                     $heading = "<h3>Delete $make $model</h3>";
                     echo $heading;
                     ?>
-                    <p>Deletes cannot be undone. Are you use sure you want to delete this review ?</p>
+                    <p class='error-message'>Deletes cannot be undone. Are you use sure you want to delete this review ?
+                    </p>
                 </div>
 
                 <div>
                     <h4>Review Text</h4>
-                    <p><?php echo $review['reviewText'] ?></p>
+                    <p class="delete-review-text"><?php echo $review['reviewText'] ?></p>
                 </div>
 
                 <input type='submit' value='Delete' tabindex='6' />

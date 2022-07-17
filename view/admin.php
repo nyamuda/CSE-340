@@ -43,7 +43,6 @@ if (!isset($_SESSION['loggedin'])) {
         </h1>
 
 
-
         <p>You're logged in.</p>
         <?php
         if (isset($_SESSION['message'])) {

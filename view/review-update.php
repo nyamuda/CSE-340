@@ -60,8 +60,7 @@ if (isset($_SESSION['clientData'])) {
                     echo $heading;
                     ?>
                 </div>
-                <label for='name'>Screen Name<input readonly id='name' type='text'
-                        value='<?php echo clientScreenName() ?>' name='screenName' tabindex='3' /></label>
+
                 <label for='review'>Review<textarea id='review' rows='5' type='text' placeholder='Write your review...'
                         name='reviewText' tabindex='2' required /><?php echo $review['reviewText'] ?></textarea></label>
 

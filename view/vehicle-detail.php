@@ -56,7 +56,7 @@
             $clientId = $_SESSION['clientData']['clientId'];
             $clientFirstname = $_SESSION['clientData']['clientFirstname'];
             $clientLastname = $_SESSION['clientData']['clientLastname'];
-            $clientScreenName = substr($clientFirstname, 0, 1) . substr($clientLastname, 0);
+            $clientScreenName = $clientScreenName = strtoupper(substr($clientFirstname, 0, 1)) . strtoupper(substr($clientLastname, 0, 1)) . substr($clientLastname, 1);
 
 
             if (isset($_SESSION['message'])) {
@@ -66,12 +66,12 @@
             <form method='POST' action='/phpmotors/reviews/'>
               
         <div class='intro'>
-            <h3>Reviews</h3>
+            <h3>Review $vehicleName </h3>
         </div>
-        <label for='name'>Screen Name<input readonly id='name' type='text' value='$clientScreenName'
-        name='screenName' tabindex='3' /></label>
+        <label for='name'>Screen Name<input readonly id='name' type='text' value='$clientScreenName' name='screenName'
+                tabindex='3' /></label>
         <label for='review'>Review<textarea id='review' rows='5' type='text' value='$reviewText'
-        placeholder='Write your review...' name='reviewText' tabindex='2' required /></textarea></label>
+                placeholder='Write your review...' name='reviewText' tabindex='2' required /></textarea></label>
 
         <input type='submit' value='Submit' tabindex='6' />
 

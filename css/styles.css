@@ -2,6 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Racing+Sans+One&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Carme&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
 
 :root {
     --input-small-text:0.8rem;
@@ -9,6 +10,7 @@
     --form-color: #3a3a3a;
     --form-font:'Comfortaa', cursive;
     --body-font:'Carme', sans-serif;
+    --font2:'Lato', sans-serif;
 }
 * {
     box-sizing: border-box;
@@ -22,7 +24,7 @@ body {
     flex-direction: column;
     justify-content: space-between;
     height: 100vh;
-    font-family: var(--body-font);
+    font-family: var(--font2);
     width: 95%;
     margin: auto;
     font-size: 1.1rem;
@@ -325,7 +327,10 @@ input[type=submit] {
 }
 
 .success-message {
-    color:#00755E;
+    background:#228b22;
+    color:#fff;
+    padding:1rem;
+    width:fit-content;
 }
 
 /* .no-account-link>a:hover {
@@ -612,8 +617,12 @@ input[type=submit] {
 
 
 
-/* TEST CODE */
-
+/* REVIEW CARS */
+.delete-review-text {
+    background:#A0A0A0;
+    padding:1rem;
+    font-style:italic;
+}
 
 #reviews{
     display: flex;
@@ -641,13 +650,13 @@ input[type=submit] {
 }
 .review-box-container{
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     flex-wrap: wrap;
     width:100%;
 }
 .review-box{
-    width:500px;
+    width:40rem;
     box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
     background-color: #ffffff;
     padding: 20px;
@@ -726,3 +735,5 @@ input[type=submit] {
     color: #ffffff;
     background-color: #252525;
 }
+
+/* REVIEW CARDS END */

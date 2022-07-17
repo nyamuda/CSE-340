@@ -1,12 +1,14 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Racing+Sans+One&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Carme&display=swap');
 
 :root {
     --input-small-text:0.8rem;
     --small-color:#F8F8F8;
     --form-color: #3a3a3a;
     --form-font:'Comfortaa', cursive;
+    --body-font:'Carme', sans-serif;
 }
 * {
     box-sizing: border-box;
@@ -20,7 +22,7 @@ body {
     flex-direction: column;
     justify-content: space-between;
     height: 100vh;
-    font-family: 'Racing Sans One', cursive;
+    font-family: var(--body-font);
     width: 95%;
     margin: auto;
     font-size: 1.1rem;
@@ -646,7 +648,7 @@ input[type=submit] {
 }
 .review-box{
     width:500px;
-    box-shadow: 2px 2px 30px rgba(0,0,0,0.1);
+    box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
     background-color: #ffffff;
     padding: 20px;
     margin: 15px;
@@ -679,12 +681,10 @@ input[type=submit] {
     letter-spacing: 0.5px;
 }
 .name-user span{
-    color: #979797;
+    color: var(--form-color);
     font-size: 0.8rem;
 }
-.reviews{
-    color: #f9d71c;
-}
+
 .box-top{
     display: flex;
     justify-content: space-between;
@@ -692,8 +692,7 @@ input[type=submit] {
     margin-bottom: 20px;
 }
 .client-comment p{
-    font-size: 0.9rem;
-    color: #4b4b4b;
+    font-size: 1rem;
 }
 .review-box:hover{
     transform: translateY(-10px);

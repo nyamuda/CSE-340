@@ -355,3 +355,49 @@ function buildVehicleThumbnails($thumbnails)
 
     return $container;
 }
+
+
+function buildAllVehicleReviews($reviews)
+{
+    $section = "<section id='reviews'>";
+
+    foreach ($reviews as $review) {
+        $clientFirstname = $review['clientFirstname'];
+        $clientLastname = $review['clientLastname'];
+        $clientScreenName = substr($clientFirstname, 0, 1) . substr($clientLastname, 0);
+
+        $reviewDate = $review['reviewDate'];
+        $reviewText = $review['reviewText'];
+
+
+        $review_card = "<div class='review-box-container'>
+            <div class='review-box'>
+    
+                <div class='box-top'>
+    
+                    <div class='profile'>
+    
+                        <div class='profile-img'>
+                            <img src='https://cdn-icons-png.flaticon.com/512/456/456212.png' />
+                        </div>
+    
+                        <div class='name-user'>
+                            <strong>$clientScreenName</strong>
+                            <span>$reviewDate</span>
+                        </div>
+                    </div>
+    
+                </div>
+    
+                <div class='client-comment'>
+                    <p>$reviewText</p>
+                </div>
+            </div>
+        </div>";
+        $section .= $review_card;
+    }
+
+    $section .= "</section>";
+
+    return $section;
+}

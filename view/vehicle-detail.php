@@ -47,21 +47,56 @@
 
         </div>
         <hr>
-        <!-- 
-        <div class="item">
-            <div class="item__block1">
-                <p>Title</p>
-                <img src="" alt="">
-                <p>Price:</p>
-            </div>
 
-            <div class="item__block2">
-                <p>Vehicle Details</p>
-                <p>Description</p>
-                <p>Color:</p>
-                <p>No. in stock: </p>
-            </div>
-        </div> -->
+        <h2>Customer Reviews</h2>
+        <?php
+        if (isset($_SESSION['loggedin'])) {
+            $clientId = $_SESSION['clientData']['clientId'];
+            $clientFirstname = $_SESSION['clientData']['clientFirstname'];
+            $clientLastname = $_SESSION['clientData']['clientLastname'];
+            $clientScreenName = substr($clientFirstname, 0, 1) . substr($clientLastname, 0);
+
+            if (isset($error_message)) {
+                echo $error_message;
+            }
+            if (isset($_SESSION['success_message'])) {
+                echo $_SESSION['success_message'];
+            }
+            $form = "<div class='section-form'>
+            <form method='POST' action='/phpmotors/reviews/'>
+              
+        <div class='intro'>
+            <h3>Review</h3>
+        </div>
+        <label for='name'>Screen Name<input readonly id='name' type='input' value='<?php echo $clientScreenName ?>'
+        name='screenName' tabindex='3' /></label>
+        <label for='review'>Password<input id='review' type='text' value='<?php echo $reviewText ?>'
+                placeholder='Review' name='reviewText' tabindex='2' required /></label>
+
+        <input type='submit' value='Submit' tabindex='6' />
+
+        <input type='hidden' name='action' value='add-review'>
+        <input type='hidden' name='id' value='<?php echo $clientId ?>'>
+        <input type='hidden' name='invId' value='<?php echo $vehicleId ?>'>
+
+        </form>
+        </div>";
+
+        echo $form;
+        } else {
+        $link = "<p>You must <a href='/phpmotors/accounts'>login</a> to write a review.</p>";
+        echo $link;
+        }
+
+        ?>
+
+        <?php
+
+        echo showAllVehicleReviews();
+
+        ?>
+
+        <hr>
 
     </main>
 

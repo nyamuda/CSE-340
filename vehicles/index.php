@@ -421,8 +421,30 @@ function showVehicleInfo()
         $vehicleInfo = buildVehicleInfo($vehicle);
     }
 
+
     include '../view/vehicle-detail.php';
 }
+
+
+
+//FETCH ALL REVIEWS FOR A PARTICULAR VEHICLE
+//AND SHOW THE REVIEWS
+function showAllVehicleReviews()
+{
+    $invId = trim(filter_input(INPUT_POST, 'invId', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+    $reviews = getAllVehicleReviews($invId);
+
+    if (count($reviews) >= 1) {
+
+        //building the HTML to show all the reviews
+        //the  buildAllVehicleReviews function is in the functions module
+        return buildAllVehicleReviews($reviews);
+    } else {
+        return "<p>Be the first to write a review.</p>";
+    }
+}
+
+
 
 switch ($action) {
     case 'classification':

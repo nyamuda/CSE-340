@@ -3,9 +3,6 @@ if (!isset($_SESSION['loggedin'])) {
     header('Location: /phpmotors/');
     exit;
 }
-if (isset($_SESSION['success_message'])) {
-    $message = $_SESSION['success_message'];
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -45,13 +42,14 @@ if (isset($_SESSION['success_message'])) {
             ?>
         </h1>
 
-        <?php
-        echo $message;
-        ?>
-
 
 
         <p>You're logged in.</p>
+        <?php
+        if (isset($_SESSION['message'])) {
+            echo $_SESSION['message'];
+        }
+        ?>
         <?php
         //A List of the client details
         $data = $_SESSION['clientData'];
@@ -117,4 +115,6 @@ if (isset($_SESSION['success_message'])) {
 </body>
 
 </html>
-<?php unset($_SESSION['success_message']); ?>
+<?php
+unset($_SESSION['message']);
+?>

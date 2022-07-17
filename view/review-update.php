@@ -47,7 +47,11 @@ if (isset($_SESSION['clientData'])) {
 
         <div class='section-form review-form'>
             <form method='POST' action='/phpmotors/reviews/'>
-
+                <?php
+                if (isset($_SESSION['message'])) {
+                    echo $_SESSION['message'];
+                }
+                ?>
                 <div class='intro'>
                     <?php
                     $make = $review['invMake'];
@@ -64,7 +68,7 @@ if (isset($_SESSION['clientData'])) {
                 <input type='submit' value='Submit' tabindex='6' />
 
                 <input type='hidden' name='action' value='edit'>
-                <input type='hidden' name='reviewId' value="<?php echo $review['$reviewId'] ?>">
+                <input type='hidden' name='reviewId' value="<?php echo $review['reviewId'] ?>">
 
 
             </form>
@@ -84,6 +88,5 @@ if (isset($_SESSION['clientData'])) {
 
 </html>
 <?php
-unset($error_message);
-unset($password_error_message);
+unset($_SESSION['message']);
 ?>

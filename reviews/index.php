@@ -92,7 +92,7 @@ function deleteClientReview()
         header('location: /phpmotors/accounts/');
         exit;
     } else {
-        $error_message = "<p class='error-message'>Sorry,the review was not deleted. Please try again.</p>";
+        $error_message = "<p class='error-message'>Sorry, the review was not deleted. Please try again.</p>";
         include "../view/admi.php";
         exit;
     }
@@ -105,9 +105,11 @@ function updateClientReview()
     $reviewText = trim(filter_input(INPUT_POST, 'reviewText', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
 
 
+
     if (empty($reviewText)) {
-        $error_message = "<p class='error-message'>Please provide information for the form field.</p>";
-        include "../view/review-vehicle.php";
+        $message = "<p class='error-message'>Please provide information for the form field.</p>";
+        $_SESSION['message'] = $message;
+        header("location: /phpmotors/reviews/index.php?action=show-edit&reviewId=$reviewId");
         exit;
     }
 
@@ -115,14 +117,14 @@ function updateClientReview()
     $rowsChanged = updateReviewById($reviewId, $reviewText);
 
     if ($rowsChanged == 1) {
-        $error_message = "";
-        $success_message = "<p class='success-message'>The review was successfully updated.</p>";
-        $_SESSION['success_message'] = $success_message;
+        $message = "<p class='success-message'>The review was successfully updated.</p>";
+        $_SESSION['message'] = $message;
         header('location: /phpmotors/accounts/');
         exit;
     } else {
-        $error_message = "<p class='error-message'>Sorry,the review was not updated. Please try again.</p>";
-        include "../view/review-update.php";
+        $message = "<p class='error-message'>Sorry, the review was not updated. Please try again.</p>";
+        $_SESSION['message'] = $message;
+        header("location: /phpmotors/reviews/index.php?action=show-edit&reviewId=$reviewId");
         exit;
     }
 }

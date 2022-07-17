@@ -316,10 +316,14 @@ function changeAccountPassword()
 
 //FETCH ALL REVIEWS FOR A PARTICULAR CLIENT
 //AND SHOW THE REVIEWS
-function showAllVehicleReviews()
+function showAllClientReviews()
 {
     $clientId = $_SESSION['clientData']['clientId'];
+
+    // getAllClientReviews function is inside th reviews-model file
     $reviews = getAllClientReviews($clientId);
+
+
 
     if (count($reviews) >= 1) {
 

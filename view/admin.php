@@ -51,7 +51,6 @@ if (isset($_SESSION['success_message'])) {
 
 
 
-
         <p>You're logged in.</p>
         <?php
         //A List of the client details
@@ -97,7 +96,9 @@ if (isset($_SESSION['success_message'])) {
 
         <h2>Manage your Product Reviews</h2>
         <?php
-        showAllVehicleReviews();
+
+        //FUNCTION FROM THE USERS CONTROLLER
+        echo showAllClientReviews();
         ?>
 
         <hr>

@@ -437,8 +437,6 @@ function showAllVehicleReviews()
 
     $reviews = getAllVehicleReviews($invId);
 
-    print_r($reviews);
-    exit;
 
     if (count($reviews) >= 1) {
 

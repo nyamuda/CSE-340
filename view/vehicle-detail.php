@@ -58,11 +58,9 @@
             $clientLastname = $_SESSION['clientData']['clientLastname'];
             $clientScreenName = substr($clientFirstname, 0, 1) . substr($clientLastname, 0);
 
-            if (isset($error_message)) {
-                echo $error_message;
-            }
-            if (isset($_SESSION['success_message'])) {
-                echo $_SESSION['success_message'];
+
+            if (isset($_SESSION['message'])) {
+                echo $_SESSION['message'];
             }
             $form = "<div class='section-form review-form'>
             <form method='POST' action='/phpmotors/reviews/'>
@@ -114,3 +112,6 @@
 </body>
 
 </html>
+<?php
+unset($_SESSION['message']);
+?>

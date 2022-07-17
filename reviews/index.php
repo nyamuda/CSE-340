@@ -40,14 +40,17 @@ function clientScreenName()
 //ADD A REVIEW TO THE DATABASE
 function addReview()
 {
+    global $dynamicNavBar;
+
     $clientId = trim(filter_input(INPUT_POST, 'clientId', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
     $invId = trim(filter_input(INPUT_POST, 'invId', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
     $reviewText = trim(filter_input(INPUT_POST, 'reviewText', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
     $screenName = trim(filter_input(INPUT_POST, 'screenName', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
 
     if (empty($reviewText)) {
-        $error_message = "<p class='error-message'>Please provide information for the form field.</p>";
-        include "../view/vehicle-detail.php";
+        $message = "<p class='error-message'>Please provide information for the form field.</p>";
+        $_SESSION['message'] = $message;
+        header("location: /phpmotors/vehicles/index.php?action=vehicle-info&vehicleId=$invId");
         exit;
     }
 
@@ -55,14 +58,15 @@ function addReview()
     $rowsChanged = insertClientReview($invId, $clientId, $reviewText);
 
     if ($rowsChanged == 1) {
-        $error_message = "";
-        $success_message = "<p class='success-message'>The review was successfully added.</p>";
-        $_SESSION['success_message'] = $success_message;
-        include "../view/vehicle-detail.php";
+
+        $message = "<p class='success-message'>The review was successfully added.</p>";
+        $_SESSION['message'] = $message;
+        header("location: /phpmotors/vehicles/index.php?action=vehicle-info&vehicleId=$invId");
         exit;
     } else {
-        $error_message = "<p class='error-message'>Sorry,the review was not added. Please try again.</p>";
-        include "../view/vehicle-detail.php";
+        $message = "<p class='error-message'>Sorry,the review was not added. Please try again.</p>";
+        $_SESSION['message'] = $message;
+        header("location: /phpmotors/vehicles/index.php?action=vehicle-info&vehicleId=$invId");
         exit;
     }
 }
@@ -130,20 +134,21 @@ switch ($action) {
         addReview();
         break;
 
-    case 'edit':
+    case 'show-edit':
         $review = getReviewInfo();
         include '../view/review-update.php';
+        break;
 
-    case 'Edit':
+    case 'edit':
         updateClientReview();
         break;
 
-    case 'delete':
+    case 'show-delete':
         $review = getReviewInfo();
         include '../view/review-update.php';
         break;
 
-    case 'Delete':
+    case 'delete':
         deleteClientReview();
         break;
 

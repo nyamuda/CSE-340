@@ -409,24 +409,24 @@ function buildAllVehicleReviews($reviews)
 //of a particular client
 function buildAllClientReviews($reviews)
 {
+
+
     $section = "<section>";
 
     foreach ($reviews as $review) {
         $invMake = $review['invMake'];
         $invModel = $review['invModel'];
         $reviewId = $review['reviewId'];
-
         $reviewDate = $review['reviewDate'];
         $reviewText = $review['reviewText'];
 
 
-        $review = "<div>
-        <ul>$invMake $invModel [Reviewed on $reviewDate]: <a href='/phpmotors/reviews/index.php?action=edit&reviewId=$reviewId'>Edit</a> | <a
-                href='/phpmotors/reviews/index.php?action=delete&reviewId=$reviewId'>Delete</a></ul>
+        $div = "<div>
+        <ul>$invMake $invModel [Reviewed on $reviewDate]: <a href='/phpmotors/reviews/index.php?action=show-edit&reviewId=$reviewId'>Edit</a> | <a
+                href='/phpmotors/reviews/index.php?action=show-delete&reviewId=$reviewId'>Delete</a></ul>
     </div>";
-        $section .= $review;
+        $section .= $div;
     }
-
     $section .= "</section>";
 
     return $section;

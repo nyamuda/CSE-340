@@ -5,8 +5,9 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/phpmotors/library/connections.php';
 //ADD A USER REVIEW TO THE DATABASE
 function insertClientReview($invId, $clientId, $reviewText)
 {
+
     $object = phpmotorsConnect();
-    $sql = 'INSERT INTO clients (reviewText,invId,clientId)
+    $sql = 'INSERT INTO reviews (reviewText,invId,clientId)
     VALUES (:reviewText, :invId, :clientId)';
     $stmt = $object->prepare($sql);
     $stmt->bindParam(':reviewText', $reviewText, PDO::PARAM_STR);
@@ -47,7 +48,7 @@ function getAllVehicleReviews($invId)
 //FOR A PARTICULAR CLIENT
 function getAllClientReviews($clientId)
 {
-    $sql = "SELECT reviewText, reviewDate, invId, invMake, invModel
+    $sql = "SELECT reviewId, reviewText, reviewDate, invId, invMake, invModel
     FROM reviews JOIN clients c USING(clientId) JOIN inventory inv USING(invId) WHERE c.clientId=:clientId";
 
     //prapare
@@ -61,6 +62,7 @@ function getAllClientReviews($clientId)
     //execute
     $stmt->execute();
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
     $stmt = null;
 
     return $result;

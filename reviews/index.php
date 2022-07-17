@@ -107,6 +107,7 @@ function updateClientReview()
         exit;
     }
 
+    //the updateReviewById function is fromthe review-model file
     $rowsChanged = updateReviewById($reviewId, $reviewText);
 
     if ($rowsChanged == 1) {

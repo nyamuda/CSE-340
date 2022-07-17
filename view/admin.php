@@ -95,7 +95,7 @@ if (isset($_SESSION['success_message'])) {
         ?>
 
 
-        <h2>Manage your Product Revies</h2>
+        <h2>Manage your Product Reviews</h2>
         <?php
         showAllVehicleReviews();
         ?>

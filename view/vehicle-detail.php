@@ -49,6 +49,8 @@
         <hr>
 
         <h2>Customer Reviews</h2>
+        <!--SHOW REVIEW FORM IF THE USER IS LOGGED IN-->
+        <!--OR ELSE SHOW THEM THE LINK TO THE LOG IN PAGE-->
         <?php
         if (isset($_SESSION['loggedin'])) {
             $clientId = $_SESSION['clientData']['clientId'];
@@ -62,34 +64,34 @@
             if (isset($_SESSION['success_message'])) {
                 echo $_SESSION['success_message'];
             }
-            $form = "<div class='section-form'>
+            $form = "<div class='section-form review-form'>
             <form method='POST' action='/phpmotors/reviews/'>
               
         <div class='intro'>
-            <h3>Review</h3>
+            <h3>Reviews</h3>
         </div>
-        <label for='name'>Screen Name<input readonly id='name' type='input' value='<?php echo $clientScreenName ?>'
+        <label for='name'>Screen Name<input readonly id='name' type='text' value='$clientScreenName'
         name='screenName' tabindex='3' /></label>
-        <label for='review'>Password<input id='review' type='text' value='<?php echo $reviewText ?>'
-                placeholder='Review' name='reviewText' tabindex='2' required /></label>
+        <label for='review'>Review<textarea id='review' rows='5' type='text' value='$reviewText'
+        placeholder='Write your review...' name='reviewText' tabindex='2' required /></textarea></label>
 
         <input type='submit' value='Submit' tabindex='6' />
 
         <input type='hidden' name='action' value='add-review'>
-        <input type='hidden' name='clientId' value='<?php echo $clientId ?>'>
-        <input type='hidden' name='invId' value='<?php echo $vehicleId ?>'>
+        <input type='hidden' name='clientId' value='$clientId'>
+        <input type='hidden' name='invId' value='$vehicleId'>
 
         </form>
         </div>";
-
-        echo $form;
+            echo $form;
         } else {
-        $link = "<p>You must <a href='/phpmotors/accounts'>login</a> to write a review.</p>";
-        echo $link;
+
+            $link = "<p>You must <a href='/phpmotors/accounts/index.php?action=account'>login</a> to write a review.</p>";
+            echo $link;
         }
 
         ?>
-
+        <!--SHOW ALL REVIEWS OF THE VEHICLE-->
         <?php
 
         echo showAllVehicleReviews();

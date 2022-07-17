@@ -8,42 +8,12 @@
     --form-color: #3a3a3a;
     --form-font:'Comfortaa', cursive;
 }
-
-
-/* CODE FROM ACTIVITY*/
-
-/* html{
+* {
     box-sizing: border-box;
-   }
-   
-   *, *:before, *:after{
-    box-sizing: inherit;
-   }
-
-   #inv-display{
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-   }
-   
-   #inv-display li{
-    margin-bottom: .5em;
-    border: 1px #ccc solid;
-    list-style-type: none;
-    flex: 1 1 auto;
-   }
-   
-   #inv-display li img {
-       max-width: 100%;
-   }
-   */
-
-   /* END OF CODE FROM ACTIVITY */
+}
 
 
 
-/* BODY FOOTER AND HEADER START */
 
 body {
     display: flex;
@@ -262,9 +232,8 @@ figcaption a {
     color:#ffffff;
 }
 
-* {
-    box-sizing: border-box;
-}
+
+
 
 
 
@@ -280,6 +249,7 @@ figcaption a {
 
 
 input[type=file],
+textarea,
 select,
 input[type=text],
 input[type=password],
@@ -296,6 +266,12 @@ input[type=email] {
     height: 45px;
     outline: none;
 }
+
+textarea {
+    height:auto;
+}
+
+
 
 select {
     color: #555555;
@@ -496,6 +472,11 @@ input[type=submit] {
     /*REGISTER/LOGIN START */ 
     .section-form {
         width:30rem;
+    }
+
+    .review-form {
+    width:50%;
+    margin-left:0rem;
     }
     input[type=button] {
         width:auto;

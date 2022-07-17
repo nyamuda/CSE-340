@@ -433,8 +433,12 @@ function showVehicleInfo()
 //AND SHOW THE REVIEWS
 function showAllVehicleReviews()
 {
-    $invId = trim(filter_input(INPUT_POST, 'invId', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+    $invId = trim(filter_input(INPUT_GET, 'vehicleId', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+
     $reviews = getAllVehicleReviews($invId);
+
+    print_r($reviews);
+    exit;
 
     if (count($reviews) >= 1) {
 

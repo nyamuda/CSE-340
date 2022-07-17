@@ -36,7 +36,7 @@ function getAllVehicleReviews($invId)
 
     //execute
     $stmt->execute();
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $stmt = null;
 
     return $result;
@@ -55,12 +55,12 @@ function getAllClientReviews($clientId)
     $stmt = $object->prepare($sql);
 
     //bind
-    $stmt->bindParam(':invId', $clientId, PDO::PARAM_INT);
+    $stmt->bindParam(':clientId', $clientId, PDO::PARAM_INT);
 
 
     //execute
     $stmt->execute();
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $stmt = null;
 
     return $result;

@@ -76,7 +76,7 @@
         <input type='submit' value='Submit' tabindex='6' />
 
         <input type='hidden' name='action' value='add-review'>
-        <input type='hidden' name='id' value='<?php echo $clientId ?>'>
+        <input type='hidden' name='clientId' value='<?php echo $clientId ?>'>
         <input type='hidden' name='invId' value='<?php echo $vehicleId ?>'>
 
         </form>

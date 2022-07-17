@@ -6,6 +6,8 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/phpmotors/model/main-model.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/phpmotors/model/vehicles-model.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/phpmotors/library/functions.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/phpmotors/model/uploads-model.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/phpmotors/model/reviews-model.php';
+
 
 
 //Dynamic Nav Bar

@@ -7,6 +7,8 @@ session_start();
 require_once $_SERVER['DOCUMENT_ROOT'] . '/phpmotors/model/main-model.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/phpmotors/model/accounts-model.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/phpmotors/library/functions.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/phpmotors/model/reviews-model.php';
+
 
 
 //Dynamic Nav Bar
@@ -308,6 +310,24 @@ function changeAccountPassword()
 
         include '../view/client-update.php';
         exit;
+    }
+}
+
+
+//FETCH ALL REVIEWS FOR A PARTICULAR CLIENT
+//AND SHOW THE REVIEWS
+function showAllVehicleReviews()
+{
+    $clientId = $_SESSION['clientData']['clientId'];
+    $reviews = getAllClientReviews($clientId);
+
+    if (count($reviews) >= 1) {
+
+        //building the HTML to show all the reviews
+        //the  buildAllClientReviews function is in the functions module
+        return buildAllClientReviews($reviews);
+    } else {
+        return "<p>You haven't reviewed any vehicles yet.</p>";
     }
 }
 

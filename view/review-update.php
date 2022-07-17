@@ -65,7 +65,7 @@ if (isset($_SESSION['clientData'])) {
                 <label for='review'>Review<textarea id='review' rows='5' type='text' placeholder='Write your review...'
                         name='reviewText' tabindex='2' required /><?php echo $review['reviewText'] ?></textarea></label>
 
-                <input type='submit' value='Submit' tabindex='6' />
+                <input type='submit' value='Update' tabindex='6' />
 
                 <input type='hidden' name='action' value='edit'>
                 <input type='hidden' name='reviewId' value="<?php echo $review['reviewId'] ?>">

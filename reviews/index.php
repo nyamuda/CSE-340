@@ -59,7 +59,7 @@ function addReview()
 
     if ($rowsChanged == 1) {
 
-        $message = "<p class='success-message'>The review was successfully added.</p>";
+        $message = "<p class='success-message'>Thank you for leaving a comment. The review was added successfully.</p>";
         $_SESSION['message'] = $message;
         header("location: /phpmotors/vehicles/index.php?action=vehicle-info&vehicleId=$invId");
         exit;
@@ -83,17 +83,20 @@ function getReviewInfo()
 //DELETE A PARTICULAR REVIEW
 function deleteClientReview()
 {
-    $reviewId = trim(filter_input(INPUT_GET, 'reviewId', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+    $reviewId = trim(filter_input(INPUT_POST, 'reviewId', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+
+
+    //the deleteReviewById function is inside the reviews-model file
     $rowsChanged = deleteReviewById($reviewId);
     if ($rowsChanged == 1) {
-        $error_message = "";
-        $success_message = "<p class='success-message'>The review was successfully deleted.</p>";
-        $_SESSION['success_message'] = $success_message;
+        $message = "<p class='success-message'>The review was successfully deleted.</p>";
+        $_SESSION['message'] = $message;
         header('location: /phpmotors/accounts/');
         exit;
     } else {
-        $error_message = "<p class='error-message'>Sorry, the review was not deleted. Please try again.</p>";
-        include "../view/admi.php";
+        $message = "<p class='error-message'>Sorry, the review was not deleted. Please try again.</p>";
+        $_SESSION['message'] = $message;
+        header("location: /phpmotors/reviews/index.php?action=show-delete&reviewId=$reviewId");
         exit;
     }
 }
@@ -147,7 +150,7 @@ switch ($action) {
 
     case 'show-delete':
         $review = getReviewInfo();
-        include '../view/review-update.php';
+        include '../view/review-delete.php';
         break;
 
     case 'delete':

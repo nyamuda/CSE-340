@@ -3,13 +3,6 @@ if (!isset($_SESSION['loggedin'])) {
     header('Location: /phpmotors/');
     exit;
 }
-
-if (isset($_SESSION['clientData'])) {
-    $clientFirstname = $_SESSION['clientData']['clientFirstname'];
-    $clientLastname = $_SESSION['clientData']['clientLastname'];
-    $clientEmail = $_SESSION['clientData']['clientEmail'];
-    $clientId = $_SESSION['clientData']['clientId'];
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -45,8 +38,13 @@ if (isset($_SESSION['clientData'])) {
 
     <main>
 
-        <div class='section-form'>
+        <div class='section-form review-form'>
             <form method='POST' action='/phpmotors/reviews/'>
+                <?php
+                if (isset($_SESSION['message'])) {
+                    echo $_SESSION['message'];
+                }
+                ?>
 
                 <div class='intro'>
                     <?php
@@ -55,7 +53,7 @@ if (isset($_SESSION['clientData'])) {
                     $heading = "<h3>Delete $make $model</h3>";
                     echo $heading;
                     ?>
-                    <p>Deletes cannot be undone. Are you use sure you want to delete this review</p>
+                    <p>Deletes cannot be undone. Are you use sure you want to delete this review ?</p>
                 </div>
 
                 <div>
@@ -63,10 +61,10 @@ if (isset($_SESSION['clientData'])) {
                     <p><?php echo $review['reviewText'] ?></p>
                 </div>
 
-                <input type='submit' value='Submit' tabindex='6' />
+                <input type='submit' value='Delete' tabindex='6' />
 
-                <input type='hidden' name='action' value='Delete'>
-                <input type='hidden' name='reviewId' value='<?php echo $review['$reviewId'] ?>'>
+                <input type='hidden' name='action' value='delete'>
+                <input type='hidden' name='reviewId' value='<?php echo $review['reviewId'] ?>'>
 
 
             </form>
@@ -86,6 +84,5 @@ if (isset($_SESSION['clientData'])) {
 
 </html>
 <?php
-unset($error_message);
-unset($password_error_message);
+unset($_SESSION['message']);
 ?>

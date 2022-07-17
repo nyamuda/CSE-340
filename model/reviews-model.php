@@ -73,14 +73,13 @@ function getAllClientReviews($clientId)
 
 function deleteReviewById($reviewId)
 {
-    $sql = $sql = 'DELETE FROM reviews WHERE reviewId = :reviewId';
+    $sql = 'DELETE FROM reviews WHERE reviewId = :reviewId';
 
     //PREPARE
     $conn = phpmotorsConnect();
     $stmt = $conn->prepare($sql);
 
     //BIND THE DATA
-
     $stmt->bindValue(':reviewId', $reviewId, PDO::PARAM_INT);
 
     //EXECUTE

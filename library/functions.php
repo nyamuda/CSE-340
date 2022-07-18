@@ -410,7 +410,7 @@ function buildAllClientReviews($reviews)
 {
 
 
-    $section = "<section>";
+    $section = "<ul class='product-review-client'>";
 
     foreach ($reviews as $review) {
         $invMake = $review['invMake'];
@@ -420,13 +420,12 @@ function buildAllClientReviews($reviews)
         $reviewText = $review['reviewText'];
 
 
-        $div = "<div>
-        <ul>$invMake $invModel [Reviewed on $reviewDate]: <a href='/phpmotors/reviews/index.php?action=show-edit&amp;reviewId=$reviewId'>Edit</a> | <a
-                href='/phpmotors/reviews/index.php?action=show-delete&amp;reviewId=$reviewId'>Delete</a></ul>
-    </div>";
+        $div = "
+        <li>$invMake $invModel [Reviewed on $reviewDate]: <a href='/phpmotors/reviews/index.php?action=show-edit&amp;reviewId=$reviewId'>Edit</a> | <a
+                href='/phpmotors/reviews/index.php?action=show-delete&amp;reviewId=$reviewId'>Delete</a></li>";
         $section .= $div;
     }
-    $section .= "</section>";
+    $section .= "</ul>";
 
     return $section;
 }

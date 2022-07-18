@@ -1,7 +1,7 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Racing+Sans+One&display=swap');
+
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Carme&display=swap');
+
 @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
 
 :root {
@@ -9,8 +9,7 @@
     --small-color:#F8F8F8;
     --form-color: #3a3a3a;
     --form-font:'Comfortaa', cursive;
-    --body-font:'Carme', sans-serif;
-    --font2:'Lato', sans-serif;
+    --body-font:'Lato', sans-serif;
 }
 * {
     box-sizing: border-box;
@@ -24,7 +23,7 @@ body {
     flex-direction: column;
     justify-content: space-between;
     height: 100vh;
-    font-family: var(--font2);
+    font-family: var(--body-font);
     width: 95%;
     margin: auto;
     font-size: 1.1rem;
@@ -484,6 +483,7 @@ input[type=submit] {
     .review-form {
     width:50%;
     margin-left:0rem;
+    margin-top:0rem;
     }
     input[type=button] {
         width:auto;
@@ -624,6 +624,10 @@ input[type=submit] {
     font-style:italic;
 }
 
+.link-to-review {
+    color:#002D62;
+    font-style:italic;
+}
 #reviews{
     display: flex;
     justify-content: center;

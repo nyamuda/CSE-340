@@ -70,8 +70,8 @@
         </div>
         <label for='name'>Screen Name<input readonly id='name' type='text' value='$clientScreenName' name='screenName'
                 tabindex='3' /></label>
-        <label for='review'>Review<textarea id='review' rows='5' type='text' value='$reviewText'
-                placeholder='Write your review...' name='reviewText' tabindex='2' required /></textarea></label>
+        <label for='review'>Review<textarea id='review' rows='5'
+                placeholder='Write your review...' name='reviewText' tabindex='2' required>$reviewText</textarea></label>
 
         <input type='submit' value='Submit' tabindex='6' />
 
@@ -84,12 +84,13 @@
             echo $form;
         } else {
 
-            $link = "<p>You must <a href='/phpmotors/accounts/index.php?action=account'>login</a> to write a review.</p>";
+            $link = "<p>You must <a href='/phpmotors/accounts/index.php?action=account' class='link-to-review'>login</a> to write a review.</p>";
             echo $link;
         }
 
         ?>
         <!--SHOW ALL REVIEWS OF THE VEHICLE-->
+        <!--THE FOLLOWING FUNCTION IS INSIDE THE VEHICLE CONTROLLER-->
         <?php
 
         echo showAllVehicleReviews();

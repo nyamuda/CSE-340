@@ -1,4 +1,5 @@
 <?php
+///REVIEWS CONTROLLER
 
 // Create or access a Session
 session_start();

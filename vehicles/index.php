@@ -443,7 +443,9 @@ function showAllVehicleReviews()
         //building the HTML to show all the reviews
         //the  buildAllVehicleReviews function is in the functions module
         return buildAllVehicleReviews($reviews);
-    } else {
+    }
+
+    if ($_SESSION['loggedin']) {
         return "<p>Be the first to write a review.</p>";
     }
 }

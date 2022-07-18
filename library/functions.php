@@ -421,8 +421,8 @@ function buildAllClientReviews($reviews)
 
 
         $div = "<div>
-        <ul>$invMake $invModel [Reviewed on $reviewDate]: <a href='/phpmotors/reviews/index.php?action=show-edit&reviewId=$reviewId'>Edit</a> | <a
-                href='/phpmotors/reviews/index.php?action=show-delete&reviewId=$reviewId'>Delete</a></ul>
+        <ul>$invMake $invModel [Reviewed on $reviewDate]: <a href='/phpmotors/reviews/index.php?action=show-edit&amp;reviewId=$reviewId'>Edit</a> | <a
+                href='/phpmotors/reviews/index.php?action=show-delete&amp;reviewId=$reviewId'>Delete</a></ul>
     </div>";
         $section .= $div;
     }
